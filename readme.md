@@ -86,14 +86,14 @@ class SampleComponent extends Component {
 
 There are several variables available in component by default.
 
-**element**
+### element
 Variable holding the root element of the component.
 
 ```javascript
 this.element; // DOM element
 ```
 
-**ref**
+### ref
 Variable holding object with all the elements marked with `data-ref` attribute within the root element, where the contents of the attribute is used as *ref* name.
 
 ```javascript
@@ -123,7 +123,7 @@ this.ref = {
 
 Component will search for those `data-ref` elements and you can have a structure clearly visible within the component.
 
-**options**
+### options
 Variable holding options of the component. Default options can be set in constructor of the component. Options get automatically rewritten from the `data-options` attribute.
 
 ```html
@@ -138,10 +138,10 @@ constructor() {
 }
 ```
 
-**state**
+### state
 Variable holding state of the component. It is not necessary to use state at all, as components are not used to actually render HTML. However, in combination with **setState** and **stateChange** methods, state can be useful for components with complex states, like some sort of filter. Another use case is component which often updates DOM, because by using **setState** modifications of DOM are made only when the state actually changed.
 
-**props**
+### props
 Variable holding object with props set for the component by it's parent component. Can be used for passing globally used values or passing handlers from parent component.
 
 ```javascript
@@ -150,7 +150,7 @@ prepare() {
 }
 ```
 
-**children**
+### children
 Variable holding object with children components (any element with `data-component` attribute within the root element of the component). Can be used for passing props or manipulating with children components, like calling children methods.
 
 ```javascript
@@ -170,7 +170,7 @@ prepare() {
 
 Component has a set of methods that can be used through it's lifecycle.
 
-**componentDidMount**
+### componentDidMount
 Method called right after the instance of component is created.
 Children/parent variables are already defined at this point and can be used within the function
 
@@ -180,7 +180,7 @@ componentDidMount() {
 }
 ```
 
-**require**
+### require
 Method used for code splitting to require any libraries needed for the component to work.
 This method is asynchronous.
 
@@ -190,7 +190,7 @@ async require() {
 }
 ```
 
-**prepare**
+### prepare
 Method called after all assets are loaded (after require method is resolved).
 This is where you would add all your listeners and such...
 
@@ -201,7 +201,7 @@ prepare() {
 }
 ```
 
-**destroy**
+### destroy
 Method called before the component is destroyed (on `removeComponents` call).
 This is where you would remove any global listeners...
 Note that any listeners attached on or within the component element are remove when the element is removed from DOM, as the component instance is stored within the element, so there is no need to remove those listeners.
@@ -213,7 +213,7 @@ destroy() {
 }
 ```
 
-**setState**
+### setState
 Method called to update state of the component.
 
 ```javascript
@@ -225,7 +225,7 @@ this.setState({
 ...
 ```
 
-**stateChange**
+### stateChange
 Ideally, any manipulation with DOM would be done within this function. `stateChanges` is a state object with only properties that were updated with `setState` call and actually changed.
 
 ```javascript
@@ -236,7 +236,7 @@ stateChange(stateChanges) {
 }
 ```
 
-**setProp**
+### setProp
 Used from parent component to set props on children components.
 
 ```javascript
@@ -254,7 +254,6 @@ prepare() {
 
 
 # Helpers
-
 
 ## loadComponents
 
