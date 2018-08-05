@@ -1,0 +1,36 @@
+{
+  "name": "base",
+  "version": "0.1.0",
+  "description": "Minimalistic JS framework for server rendered websites.",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile": "babel --presets es2015,stage-0 -d lib/ src/ && babel --presets es2015,stage-0 src/modules/Component.js --out-file Component.js && babel --presets es2015,stage-0 src/modules/BaseComponent.js --out-file BaseComponent.js && babel --presets es2015,stage-0 src/modules/getComponentFromElement.js --out-file getComponentFromElement.js && babel --presets es2015,stage-0 src/modules/utils.js --out-file utils.js",
+    "build": "webpack-cli",
+    "prepublish": "npm run compile"
+  },
+  "author": "Georgy Marchuk",
+  "contributors": [
+    "Daniel Cirmaciu",
+    "Georgy Marchuk"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [],
+  "dependencies": {
+    "babel-regenerator-runtime": "^6.5.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "uglifyjs-webpack-plugin": "^1.2.5",
+    "webpack": "^4.8.3",
+    "webpack-cli": "^2.1.3"
+  }
+}
