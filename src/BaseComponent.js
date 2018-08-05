@@ -187,7 +187,7 @@ export default class Component {
     stateChange(stateChanges) {}
 
     setProp(name, prop) {
-        if(this.prop[name] != null) {
+        if(this.props[name] != null) {
             console.warn(`You are rewriting previously defined prop (${name}).`);
         }
         this.props[name] = prop;

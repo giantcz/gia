@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["Base"] = factory();
+		exports["base"] = factory();
 	else
-		root["Base"] = factory();
+		root["base"] = factory();
 })(window, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -76,7 +76,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -381,7 +381,7 @@ var Component = function () {
     }, {
         key: 'setProp',
         value: function setProp(name, prop) {
-            if (this.prop[name] != null) {
+            if (this.props[name] != null) {
                 console.warn('You are rewriting previously defined prop (' + name + ').');
             }
             this.props[name] = prop;
@@ -466,8 +466,15 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = removeComponents;
+exports.destroyInstance = destroyInstance;
 
 var _utils = __webpack_require__(1);
+
+var _getComponentFromElement = __webpack_require__(0);
+
+var _getComponentFromElement2 = _interopRequireDefault(_getComponentFromElement);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * Removes instances of components on element within the context
@@ -475,93 +482,12 @@ var _utils = __webpack_require__(1);
  */
 
 function removeComponents() {
-    var _this = this;
-
     var context = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.documentElement;
 
     (0, _utils.queryAll)('[data-component]', context).forEach(function (element) {
-        _this.destroyInstance(element);
+        destroyInstance(element);
     });
 }
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = loadComponents;
-
-var _utils = __webpack_require__(1);
-
-var _getComponentFromElement = __webpack_require__(0);
-
-var _getComponentFromElement2 = _interopRequireDefault(_getComponentFromElement);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Creates instances of components without creating duplicates on element within the context
- * @param context: DOM element
- */
-
-function loadComponents() {
-    var _this = this;
-
-    var context = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.documentElement;
-
-
-    if (!this.components || Object.keys(this.components).length === 0) {
-        console.warn('App has no components');
-        return;
-    }
-
-    var components = [];
-
-    (0, _utils.queryAll)('[data-component]', context).forEach(function (element) {
-        var instance = (0, _getComponentFromElement2.default)(element);
-
-        if (instance) {
-            console.warn('Error: instance exists: \n', instance);
-            return true; // continue
-        }
-
-        var componentName = element.dataset.component;
-
-        if (typeof _this.components[componentName] === 'function') {
-            components.push(_this.createInstance(element, componentName));
-        } else {
-            console.warn('Constructor for component "' + componentName + '" not found.');
-        }
-    });
-
-    // call load/require/prepare
-    components.forEach(function (component) {
-        component._load();
-    });
-}
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = destroyInstance;
-
-var _getComponentFromElement = __webpack_require__(0);
-
-var _getComponentFromElement2 = _interopRequireDefault(_getComponentFromElement);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
  * destroys and removes instance from DOM element
@@ -579,32 +505,7 @@ function destroyInstance(element) {
 }
 
 /***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = createInstance;
-/**
- * Creates and returns instance of component
- * @param element: DOM element
- * @param componentName: Component constructor
- */
-
-function createInstance(element, componentName) {
-  this.components[componentName].prototype._name = componentName;
-  var component = new this.components[componentName](element);
-
-  console.info("Created instance of component \"" + componentName + "\".");
-  return component;
-}
-
-/***/ }),
-/* 7 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -613,37 +514,78 @@ function createInstance(element, componentName) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = addComponents;
-/**
- * Accepts object of component and saves them for use in loadComponents function
- * @param components: Object
- */
-function addComponents(components) {
-    var _this = this;
+exports.default = loadComponents;
+exports.createInstance = createInstance;
 
-    Object.keys(components).forEach(function (key) {
-        _this.components[key] = components[key];
+var _utils = __webpack_require__(1);
+
+var _getComponentFromElement = __webpack_require__(0);
+
+var _getComponentFromElement2 = _interopRequireDefault(_getComponentFromElement);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Creates instances of components without creating duplicates on element within the context
+ * @param components: object of components to load
+ * @param context: DOM element
+ */
+
+function loadComponents() {
+    var components = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document.documentElement;
+
+
+    if (!components || Object.keys(components).length === 0) {
+        console.warn('App has no components');
+        return;
+    }
+
+    var initialisedComponents = [];
+
+    (0, _utils.queryAll)('[data-component]', context).forEach(function (element) {
+        var instance = (0, _getComponentFromElement2.default)(element);
+
+        if (instance) {
+            console.warn('Error: instance exists: \n', instance);
+            return true; // continue
+        }
+
+        var componentName = element.dataset.component;
+
+        if (typeof components[componentName] === 'function') {
+            initialisedComponents.push(createInstance(element, componentName, components));
+        } else {
+            console.warn('Constructor for component "' + componentName + '" not found.');
+        }
+    });
+
+    // call load/require/prepare
+    initialisedComponents.forEach(function (component) {
+        component._load();
     });
 }
 
+/**
+ * Creates and returns instance of component
+ * @param element: DOM element
+ * @param componentName: Component constructor
+ */
+
+function createInstance(element, componentName, components) {
+    components[componentName].prototype._name = componentName;
+    var component = new components[componentName](element);
+
+    console.info('Created instance of component "' + componentName + '".');
+    return component;
+}
+
 /***/ }),
-/* 8 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-
-var _addComponents = __webpack_require__(7);
-
-var _addComponents2 = _interopRequireDefault(_addComponents);
-
-var _createInstance = __webpack_require__(6);
-
-var _createInstance2 = _interopRequireDefault(_createInstance);
-
-var _destroyInstance = __webpack_require__(5);
-
-var _destroyInstance2 = _interopRequireDefault(_destroyInstance);
 
 var _loadComponents = __webpack_require__(4);
 
@@ -663,23 +605,12 @@ var _BaseComponent2 = _interopRequireDefault(_BaseComponent);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Base = function Base(options) {
-    _classCallCheck(this, Base);
-
-    this.addComponents = _addComponents2.default;
-    this.createInstance = _createInstance2.default;
-    this.destroyInstance = _destroyInstance2.default;
-    this.loadComponents = _loadComponents2.default;
-    this.removeComponents = _removeComponents2.default;
-    this.Component = _BaseComponent2.default;
-    this.getComponentFromElement = _getComponentFromElement2.default;
-
-    this.components = {};
+module.exports = {
+    loadComponents: _loadComponents2.default,
+    removeComponents: _removeComponents2.default,
+    Component: _BaseComponent2.default,
+    getComponentFromElement: _getComponentFromElement2.default
 };
-
-module.exports = Base;
 
 /***/ })
 /******/ ]);

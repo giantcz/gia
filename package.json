@@ -4,8 +4,15 @@
   "description": "Minimalistic JS framework for server rendered websites.",
   "main": "lib/index.js",
   "scripts": {
+    "compile-component": "babel --presets es2015,stage-0 src/Component.js --out-file Component.js",
+    "compile-base-component":  "babel --presets es2015,stage-0 src/BaseComponent.js --out-file BaseComponent.js",
+    "compile-get-component-from-element":  "babel --presets es2015,stage-0 src/getComponentFromElement.js --out-file getComponentFromElement.js",
+    "compile-load-components":  "babel --presets es2015,stage-0 src/loadComponents.js --out-file loadComponents.js",
+    "compile-remove-components":  "babel --presets es2015,stage-0 src/removeComponents.js --out-file removeComponents.js",
+    "compile-utils":  "babel --presets es2015,stage-0 src/utils.js --out-file utils.js",
+
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile": "babel --presets es2015,stage-0 -d lib/ src/ && babel --presets es2015,stage-0 src/modules/Component.js --out-file Component.js && babel --presets es2015,stage-0 src/modules/BaseComponent.js --out-file BaseComponent.js && babel --presets es2015,stage-0 src/modules/getComponentFromElement.js --out-file getComponentFromElement.js && babel --presets es2015,stage-0 src/modules/utils.js --out-file utils.js",
+    "compile": "npm run compile-component && npm run compile-base-component && npm run compile-get-component-from-element && npm run compile-load-components && npm run compile-remove-components && npm run compile-utils",
     "build": "webpack-cli",
     "prepublish": "npm run compile"
   },

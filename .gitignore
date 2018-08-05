@@ -18,5 +18,7 @@ lib
 /BaseComponent.js
 /Component.js
 /getComponentFromElement.js
+/loadComponents.js
+/removeComponents.js
 /utils.js
 /index.html

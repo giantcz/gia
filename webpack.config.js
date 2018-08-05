@@ -1,14 +1,15 @@
 const webpack = require('webpack')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const fs = require('fs')
-var glob = require("glob");
-let plugins = [];
+const modules = [
+    'BaseComponent',
+    'Component',
+    'loadComponents',
+    'removeComponents',
+    'getComponentFromElement'
+];
 
-glob.sync("./src/modules/**.js").forEach(item => {
-    plugins.push(item.replace('./src/modules/', '').replace('.js', ''));
-});
-
-const config = {
+const defaultConfig = {
     mode: "production",
     module: {
         rules: [
@@ -37,41 +38,41 @@ const config = {
     }
 }
 
-const baseConfig = Object.assign({}, config, {
+const baseConfig = Object.assign({}, defaultConfig, {
     entry: {
-        "base": "./entry.js",
-        "base.min": "./entry.js",
+        "base": "./webpackEntries/entry.js",
+        "base.min": "./webpackEntries/entry.js",
     },
     output: {
         path: __dirname + "/dist/",
-        library: "Base",
+        library: "base",
         libraryTarget: "umd",
         filename: "[name].js",
     },
 })
 
 
-function createModulesConfig(pluginName) {
-    let config = Object.assign({}, config, {
+function createModulesConfig(modulesName) {
+    let config = Object.assign({}, defaultConfig, {
         entry: {},
         output: {
-            path: __dirname + "/dist/modules",
-            library: pluginName,
+            path: __dirname + "/dist",
+            library: modulesName,
             libraryTarget: "umd",
             filename: "[name].js",
         },
     })
 
-    config.entry[pluginName] = `./src/modules/${pluginName}.js`
-    config.entry[pluginName + ".min"] = `./src/modules/${pluginName}.js`
+    config.entry[modulesName] = `./webpackEntries/${modulesName}.js`
+    config.entry[modulesName + ".min"] = `./webpackEntries/${modulesName}.js`
 
-    return config
+    return config;
 }
 
 let configsArray = []
 configsArray.push(baseConfig)
-//plugins.forEach(item => {
-//    configsArray.push(createModulesConfig(item))
-//})
+modules.forEach(item => {
+   configsArray.push(createModulesConfig(item))
+})
 
 module.exports = configsArray
