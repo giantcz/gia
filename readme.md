@@ -1,7 +1,7 @@
 # Base
 Minimalistic JS framework for server rendered websites.
 **2.44 Kb** minified gzipped included with script tag.
-Base is modular, by default you will need two modules **BaseComponent** and **loadComponents** (minimal setup **3.22 Kb**)**.**
+Base is modular, by default you will need two modules **BaseComponent** and **loadComponents**.
 
 | Size        | Module                                  |
 | ----------- | --------------------------------------- |
@@ -11,7 +11,7 @@ Base is modular, by default you will need two modules **BaseComponent** and **lo
 | **0.98 Kb** | removeComponents                        |
 | **0.52 Kb** | getComponentFromElement                 |
 
-
+Following sizes are for modules include separately. Modules often included common code, so when included and bundled together, final sizes are smaller.
 
 # Installation
 
