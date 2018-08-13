@@ -41,8 +41,9 @@ export default class Component {
 
     set options(defaults) {
         let options = {};
-        if(this.element.dataset.options) {
-            options = JSON.parse(this.element.dataset.options);
+        let optionsFromAttribute = this.element.getAttribute('g-options');
+        if(optionsFromAttribute) {
+            options = JSON.parse(optionsFromAttribute);
         }
 
         this._options = {
@@ -77,15 +78,15 @@ export default class Component {
     }
 
     getRef(ref, prefixed = false) {
-        return `[data-ref="${prefixed ? `${this._name}:` : ''}${ref}"]`;
+        return `[g-ref="${prefixed ? `${this._name}:` : ''}${ref}"]`;
     }
 
     _getRefElements(items = null) {
         if (items == null) {
             items = {};
 
-            queryAll('[data-ref]', this.element).forEach(item => {
-                let name = item.dataset.ref;
+            queryAll('[g-ref]', this.element).forEach(item => {
+                let name = item.getAttribute('g-ref');
                 let multiple = false;
 
                 if (items[name] != null) {
@@ -196,7 +197,7 @@ export default class Component {
     getChildren() {
         // children
         this.children = {};
-        queryAll('[data-component]', this.element).forEach(element => {
+        queryAll('[g-component]', this.element).forEach(element => {
             if(element.dataset.componentName != null) {
                 if(this.children[element.dataset.componentName] == null) {
                     this.children[element.dataset.componentName] = getComponentFromElement(element);

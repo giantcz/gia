@@ -7,7 +7,7 @@ import getComponentFromElement from "./getComponentFromElement";
  */
 
 export default function removeComponents(context = document.documentElement) {
-    queryAll('[data-component]', context).forEach(element => {
+    queryAll('[g:component]', context).forEach(element => {
         destroyInstance(element);
     });
 }

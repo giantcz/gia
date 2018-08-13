@@ -50,7 +50,7 @@ class SampleComponent extends Component {
 Define the element where the component need to be attached:
 
 ```html
-<div data-component="SampleComponent">
+<div g:component="SampleComponent">
   ...
 </div>
 ```
@@ -94,7 +94,7 @@ this.element; // DOM element
 ```
 
 ### ref
-Variable holding object with all the elements marked with `data-ref` attribute within the root element, where the contents of the attribute is used as *ref* name.
+Variable holding object with all the elements marked with `g:ref` attribute within the root element, where the contents of the attribute is used as *ref* name.
 
 ```javascript
 this.ref; // { "refName": DOM element }
@@ -103,9 +103,9 @@ this.ref; // { "refName": DOM element }
 in case there are more elements that play the same role in component, the elements can be marked with the same attribute with `[]` at the end of the name. In that case, component creates an array with DOM element references, even if there is only one element (convenient when the number of elements is dynamic).
 
 ```html
-<div data-component="SampleComponent">
-  <div data-ref="items[]">
-  <div data-ref="items[]">
+<div g:component="SampleComponent">
+  <div g:ref="items[]">
+  <div g:ref="items[]">
 </div>
 ```
 ```javascript
@@ -121,13 +121,13 @@ this.ref = {
 }
 ```
 
-Component will search for those `data-ref` elements and you can have a structure clearly visible within the component.
+Component will search for those `g:ref` elements and you can have a structure clearly visible within the component.
 
 ### options
-Variable holding options of the component. Default options can be set in constructor of the component. Options get automatically rewritten from the `data-options` attribute.
+Variable holding options of the component. Default options can be set in constructor of the component. Options get automatically rewritten from the `g:options` attribute.
 
 ```html
-<div data-component="SampleComponent" data-options='{"someOption": "customValue"}'>
+<div g:component="SampleComponent" g:options='{"someOption": "customValue"}'>
 ```
 ```javascript
 constructor() {
@@ -151,7 +151,7 @@ prepare() {
 ```
 
 ### children
-Variable holding object with children components (any element with `data-component` attribute within the root element of the component). Can be used for passing props or manipulating with children components, like calling children methods.
+Variable holding object with children components (any element with `g:component` attribute within the root element of the component). Can be used for passing props or manipulating with children components, like calling children methods.
 
 ```javascript
 // in parent component

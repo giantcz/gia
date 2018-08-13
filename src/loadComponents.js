@@ -16,7 +16,7 @@ export default function loadComponents(components = {}, context = document.docum
 
     let initialisedComponents = [];
 
-    queryAll('[data-component]', context).forEach((element) => {
+    queryAll('[g-component]', context).forEach((element) => {
         const instance = getComponentFromElement(element);
 
         if (instance) {
@@ -24,7 +24,7 @@ export default function loadComponents(components = {}, context = document.docum
             return true; // continue
         }
 
-        let componentName = element.dataset.component;
+        let componentName = element.getAttribute('g-component');
 
         if (typeof components[componentName] === 'function') {
             initialisedComponents.push(createInstance(element, componentName, components));
