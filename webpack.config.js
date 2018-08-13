@@ -5,8 +5,10 @@ const modules = [
     'BaseComponent',
     'Component',
     'loadComponents',
+    'createInstance',
     'removeComponents',
-    'getComponentFromElement'
+    'destroyInstance',
+    'getComponentFromElement',
 ];
 
 const defaultConfig = {

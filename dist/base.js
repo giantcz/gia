@@ -76,7 +76,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -263,7 +263,7 @@ var Component = function () {
         value: function getRef(ref) {
             var prefixed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-            return '[data-ref="' + (prefixed ? this._name + ':' : '') + ref + '"]';
+            return '[g-ref="' + (prefixed ? this._name + ':' : '') + ref + '"]';
         }
     }, {
         key: '_getRefElements',
@@ -275,8 +275,8 @@ var Component = function () {
             if (items == null) {
                 items = {};
 
-                (0, _utils.queryAll)('[data-ref]', this.element).forEach(function (item) {
-                    var name = item.dataset.ref;
+                (0, _utils.queryAll)('[g-ref]', this.element).forEach(function (item) {
+                    var name = item.getAttribute('g-ref');
                     var multiple = false;
 
                     if (items[name] != null) {
@@ -393,7 +393,7 @@ var Component = function () {
 
             // children
             this.children = {};
-            (0, _utils.queryAll)('[data-component]', this.element).forEach(function (element) {
+            (0, _utils.queryAll)('[g-component]', this.element).forEach(function (element) {
                 if (element.dataset.componentName != null) {
                     if (_this3.children[element.dataset.componentName] == null) {
                         _this3.children[element.dataset.componentName] = (0, _getComponentFromElement2.default)(element);
@@ -433,8 +433,9 @@ var Component = function () {
         },
         set: function set(defaults) {
             var options = {};
-            if (this.element.dataset.options) {
-                options = JSON.parse(this.element.dataset.options);
+            var optionsFromAttribute = this.element.getAttribute('g-options');
+            if (optionsFromAttribute) {
+                options = JSON.parse(optionsFromAttribute);
             }
 
             this._options = _extends({}, defaults, options);
@@ -465,42 +466,19 @@ exports.default = Component;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = removeComponents;
-exports.destroyInstance = destroyInstance;
-
-var _utils = __webpack_require__(1);
-
-var _getComponentFromElement = __webpack_require__(0);
-
-var _getComponentFromElement2 = _interopRequireDefault(_getComponentFromElement);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Removes instances of components on element within the context
- * @param context: DOM element
- */
-
-function removeComponents() {
-    var context = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.documentElement;
-
-    (0, _utils.queryAll)('[data-component]', context).forEach(function (element) {
-        destroyInstance(element);
-    });
-}
-
+exports.default = destroyInstance;
 /**
  * destroys and removes instance from DOM element
  * @param element: DOM element
  */
 
 function destroyInstance(element) {
-    var instance = (0, _getComponentFromElement2.default)(element);
+    var instance = getComponentFromElement(element);
     if (instance) {
         var name = instance._name;
         instance.destroy();
         element['__base_component__'] = null;
-        console.info("Removed component \"" + name + "\".");
+        console.info('Removed component "' + name + '".');
     }
 }
 
@@ -514,14 +492,75 @@ function destroyInstance(element) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.default = removeComponents;
+
+var _utils = __webpack_require__(1);
+
+var _destroyInstance = __webpack_require__(3);
+
+var _destroyInstance2 = _interopRequireDefault(_destroyInstance);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Removes instances of components on element within the context
+ * @param context: DOM element
+ */
+
+function removeComponents() {
+    var context = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.documentElement;
+
+    (0, _utils.queryAll)('[g:component]', context).forEach(function (element) {
+        (0, _destroyInstance2.default)(element);
+    });
+}
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = createInstance;
+/**
+ * Creates and returns instance of component
+ * @param element: DOM element
+ * @param componentName: Component constructor
+ */
+
+function createInstance(element, componentName, components) {
+  components[componentName].prototype._name = componentName;
+  var component = new components[componentName](element);
+
+  console.info("Created instance of component \"" + componentName + "\".");
+  return component;
+}
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 exports.default = loadComponents;
-exports.createInstance = createInstance;
 
 var _utils = __webpack_require__(1);
 
 var _getComponentFromElement = __webpack_require__(0);
 
 var _getComponentFromElement2 = _interopRequireDefault(_getComponentFromElement);
+
+var _createInstance = __webpack_require__(5);
+
+var _createInstance2 = _interopRequireDefault(_createInstance);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -543,7 +582,7 @@ function loadComponents() {
 
     var initialisedComponents = [];
 
-    (0, _utils.queryAll)('[data-component]', context).forEach(function (element) {
+    (0, _utils.queryAll)('[g-component]', context).forEach(function (element) {
         var instance = (0, _getComponentFromElement2.default)(element);
 
         if (instance) {
@@ -551,10 +590,10 @@ function loadComponents() {
             return true; // continue
         }
 
-        var componentName = element.dataset.component;
+        var componentName = element.getAttribute('g-component');
 
         if (typeof components[componentName] === 'function') {
-            initialisedComponents.push(createInstance(element, componentName, components));
+            initialisedComponents.push((0, _createInstance2.default)(element, componentName, components));
         } else {
             console.warn('Constructor for component "' + componentName + '" not found.');
         }
@@ -566,32 +605,18 @@ function loadComponents() {
     });
 }
 
-/**
- * Creates and returns instance of component
- * @param element: DOM element
- * @param componentName: Component constructor
- */
-
-function createInstance(element, componentName, components) {
-    components[componentName].prototype._name = componentName;
-    var component = new components[componentName](element);
-
-    console.info('Created instance of component "' + componentName + '".');
-    return component;
-}
-
 /***/ }),
-/* 5 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _loadComponents = __webpack_require__(4);
+var _loadComponents = __webpack_require__(6);
 
 var _loadComponents2 = _interopRequireDefault(_loadComponents);
 
-var _removeComponents = __webpack_require__(3);
+var _removeComponents = __webpack_require__(4);
 
 var _removeComponents2 = _interopRequireDefault(_removeComponents);
 

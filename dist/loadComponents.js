@@ -76,11 +76,36 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = createInstance;
+/**
+ * Creates and returns instance of component
+ * @param element: DOM element
+ * @param componentName: Component constructor
+ */
+
+function createInstance(element, componentName, components) {
+  components[componentName].prototype._name = componentName;
+  var component = new components[componentName](element);
+
+  console.info("Created instance of component \"" + componentName + "\".");
+  return component;
+}
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -101,7 +126,7 @@ function getComponentFromElement(element) {
 }
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -192,7 +217,7 @@ function triggerEvent(element, eventType) {
 }
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -202,13 +227,16 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = loadComponents;
-exports.createInstance = createInstance;
 
-var _utils = __webpack_require__(1);
+var _utils = __webpack_require__(2);
 
-var _getComponentFromElement = __webpack_require__(0);
+var _getComponentFromElement = __webpack_require__(1);
 
 var _getComponentFromElement2 = _interopRequireDefault(_getComponentFromElement);
+
+var _createInstance = __webpack_require__(0);
+
+var _createInstance2 = _interopRequireDefault(_createInstance);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -230,7 +258,7 @@ function loadComponents() {
 
     var initialisedComponents = [];
 
-    (0, _utils.queryAll)('[data-component]', context).forEach(function (element) {
+    (0, _utils.queryAll)('[g-component]', context).forEach(function (element) {
         var instance = (0, _getComponentFromElement2.default)(element);
 
         if (instance) {
@@ -238,10 +266,10 @@ function loadComponents() {
             return true; // continue
         }
 
-        var componentName = element.dataset.component;
+        var componentName = element.getAttribute('g-component');
 
         if (typeof components[componentName] === 'function') {
-            initialisedComponents.push(createInstance(element, componentName, components));
+            initialisedComponents.push((0, _createInstance2.default)(element, componentName, components));
         } else {
             console.warn('Constructor for component "' + componentName + '" not found.');
         }
@@ -253,28 +281,14 @@ function loadComponents() {
     });
 }
 
-/**
- * Creates and returns instance of component
- * @param element: DOM element
- * @param componentName: Component constructor
- */
-
-function createInstance(element, componentName, components) {
-    components[componentName].prototype._name = componentName;
-    var component = new components[componentName](element);
-
-    console.info('Created instance of component "' + componentName + '".');
-    return component;
-}
-
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _loadComponents = __webpack_require__(2);
+var _loadComponents = __webpack_require__(3);
 
 var _loadComponents2 = _interopRequireDefault(_loadComponents);
 

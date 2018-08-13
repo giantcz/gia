@@ -1,5 +1,6 @@
 import { queryAll } from "./utils";
 import getComponentFromElement from './getComponentFromElement';
+import createInstance from './createInstance';
 
 /**
  * Creates instances of components without creating duplicates on element within the context
@@ -40,16 +41,4 @@ export default function loadComponents(components = {}, context = document.docum
 }
 
 
-/**
- * Creates and returns instance of component
- * @param element: DOM element
- * @param componentName: Component constructor
- */
 
-export function createInstance(element, componentName, components) {
-    components[componentName].prototype._name = componentName;
-    const component = new components[componentName](element);
-
-    console.info(`Created instance of component "${componentName}".`);
-    return component;
-}

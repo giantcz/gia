@@ -19,6 +19,8 @@ lib
 /Component.js
 /getComponentFromElement.js
 /loadComponents.js
+/createInstance.js
 /removeComponents.js
+/destroyInstance.js
 /utils.js
 /index.html

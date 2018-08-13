@@ -263,7 +263,7 @@ var Component = function () {
         value: function getRef(ref) {
             var prefixed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-            return '[data-ref="' + (prefixed ? this._name + ':' : '') + ref + '"]';
+            return '[g-ref="' + (prefixed ? this._name + ':' : '') + ref + '"]';
         }
     }, {
         key: '_getRefElements',
@@ -275,8 +275,8 @@ var Component = function () {
             if (items == null) {
                 items = {};
 
-                (0, _utils.queryAll)('[data-ref]', this.element).forEach(function (item) {
-                    var name = item.dataset.ref;
+                (0, _utils.queryAll)('[g-ref]', this.element).forEach(function (item) {
+                    var name = item.getAttribute('g-ref');
                     var multiple = false;
 
                     if (items[name] != null) {
@@ -393,7 +393,7 @@ var Component = function () {
 
             // children
             this.children = {};
-            (0, _utils.queryAll)('[data-component]', this.element).forEach(function (element) {
+            (0, _utils.queryAll)('[g-component]', this.element).forEach(function (element) {
                 if (element.dataset.componentName != null) {
                     if (_this3.children[element.dataset.componentName] == null) {
                         _this3.children[element.dataset.componentName] = (0, _getComponentFromElement2.default)(element);
@@ -433,8 +433,9 @@ var Component = function () {
         },
         set: function set(defaults) {
             var options = {};
-            if (this.element.dataset.options) {
-                options = JSON.parse(this.element.dataset.options);
+            var optionsFromAttribute = this.element.getAttribute('g-options');
+            if (optionsFromAttribute) {
+                options = JSON.parse(optionsFromAttribute);
             }
 
             this._options = _extends({}, defaults, options);

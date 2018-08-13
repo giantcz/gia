@@ -76,7 +76,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -263,7 +263,7 @@ var Component = function () {
         value: function getRef(ref) {
             var prefixed = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
-            return '[data-ref="' + (prefixed ? this._name + ':' : '') + ref + '"]';
+            return '[g-ref="' + (prefixed ? this._name + ':' : '') + ref + '"]';
         }
     }, {
         key: '_getRefElements',
@@ -275,8 +275,8 @@ var Component = function () {
             if (items == null) {
                 items = {};
 
-                (0, _utils.queryAll)('[data-ref]', this.element).forEach(function (item) {
-                    var name = item.dataset.ref;
+                (0, _utils.queryAll)('[g-ref]', this.element).forEach(function (item) {
+                    var name = item.getAttribute('g-ref');
                     var multiple = false;
 
                     if (items[name] != null) {
@@ -393,7 +393,7 @@ var Component = function () {
 
             // children
             this.children = {};
-            (0, _utils.queryAll)('[data-component]', this.element).forEach(function (element) {
+            (0, _utils.queryAll)('[g-component]', this.element).forEach(function (element) {
                 if (element.dataset.componentName != null) {
                     if (_this3.children[element.dataset.componentName] == null) {
                         _this3.children[element.dataset.componentName] = (0, _getComponentFromElement2.default)(element);
@@ -433,8 +433,9 @@ var Component = function () {
         },
         set: function set(defaults) {
             var options = {};
-            if (this.element.dataset.options) {
-                options = JSON.parse(this.element.dataset.options);
+            var optionsFromAttribute = this.element.getAttribute('g-options');
+            if (optionsFromAttribute) {
+                options = JSON.parse(optionsFromAttribute);
             }
 
             this._options = _extends({}, defaults, options);
@@ -649,34 +650,6 @@ process.umask = function() { return 0; };
 /* 4 */
 /***/ (function(module, exports) {
 
-module.exports = function(module) {
-	if (!module.webpackPolyfill) {
-		module.deprecate = function() {};
-		module.paths = [];
-		// module.parent = undefined by default
-		if (!module.children) module.children = [];
-		Object.defineProperty(module, "loaded", {
-			enumerable: true,
-			get: function() {
-				return module.l;
-			}
-		});
-		Object.defineProperty(module, "id", {
-			enumerable: true,
-			get: function() {
-				return module.i;
-			}
-		});
-		module.webpackPolyfill = 1;
-	}
-	return module;
-};
-
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports) {
-
 var g;
 
 // This works in non-strict mode
@@ -700,15 +673,10 @@ module.exports = g;
 
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-/* WEBPACK VAR INJECTION */(function(global, module, process) {
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-/**
+/* WEBPACK VAR INJECTION */(function(global, process) {/**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
  *
@@ -718,14 +686,15 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
  * the same directory.
  */
 
-!function (global) {
+!(function(global) {
   "use strict";
 
   var hasOwn = Object.prototype.hasOwnProperty;
   var undefined; // More compressible than void 0.
-  var iteratorSymbol = typeof Symbol === "function" && Symbol.iterator || "@@iterator";
+  var iteratorSymbol =
+    typeof Symbol === "function" && Symbol.iterator || "@@iterator";
 
-  var inModule = ( false ? undefined : _typeof(module)) === "object";
+  var inModule = typeof module === "object";
   var runtime = global.regeneratorRuntime;
   if (runtime) {
     if (inModule) {
@@ -798,22 +767,24 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   // Helper for defining the .next, .throw, and .return methods of the
   // Iterator interface in terms of a single ._invoke method.
   function defineIteratorMethods(prototype) {
-    ["next", "throw", "return"].forEach(function (method) {
-      prototype[method] = function (arg) {
+    ["next", "throw", "return"].forEach(function(method) {
+      prototype[method] = function(arg) {
         return this._invoke(method, arg);
       };
     });
   }
 
-  runtime.isGeneratorFunction = function (genFun) {
+  runtime.isGeneratorFunction = function(genFun) {
     var ctor = typeof genFun === "function" && genFun.constructor;
-    return ctor ? ctor === GeneratorFunction ||
-    // For the native GeneratorFunction constructor, the best we can
-    // do is to check its .name property.
-    (ctor.displayName || ctor.name) === "GeneratorFunction" : false;
+    return ctor
+      ? ctor === GeneratorFunction ||
+        // For the native GeneratorFunction constructor, the best we can
+        // do is to check its .name property.
+        (ctor.displayName || ctor.name) === "GeneratorFunction"
+      : false;
   };
 
-  runtime.mark = function (genFun) {
+  runtime.mark = function(genFun) {
     if (Object.setPrototypeOf) {
       Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
     } else {
@@ -828,7 +799,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   // `value instanceof AwaitArgument` to determine if the yielded value is
   // meant to be awaited. Some may consider the name of this method too
   // cutesy, but they are curmudgeons.
-  runtime.awrap = function (arg) {
+  runtime.awrap = function(arg) {
     return new AwaitArgument(arg);
   };
 
@@ -842,28 +813,30 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     function invoke(method, arg) {
       var result = generator[method](arg);
       var value = result.value;
-      return value instanceof AwaitArgument ? Promise.resolve(value.arg).then(invokeNext, invokeThrow) : Promise.resolve(value).then(function (unwrapped) {
-        // When a yielded Promise is resolved, its final value becomes
-        // the .value of the Promise<{value,done}> result for the
-        // current iteration. If the Promise is rejected, however, the
-        // result for this iteration will be rejected with the same
-        // reason. Note that rejections of yielded Promises are not
-        // thrown back into the generator function, as is the case
-        // when an awaited Promise is rejected. This difference in
-        // behavior between yield and await is important, because it
-        // allows the consumer to decide what to do with the yielded
-        // rejection (swallow it and continue, manually .throw it back
-        // into the generator, abandon iteration, whatever). With
-        // await, by contrast, there is no opportunity to examine the
-        // rejection reason outside the generator function, so the
-        // only option is to throw it from the await expression, and
-        // let the generator function handle the exception.
-        result.value = unwrapped;
-        return result;
-      });
+      return value instanceof AwaitArgument
+        ? Promise.resolve(value.arg).then(invokeNext, invokeThrow)
+        : Promise.resolve(value).then(function(unwrapped) {
+            // When a yielded Promise is resolved, its final value becomes
+            // the .value of the Promise<{value,done}> result for the
+            // current iteration. If the Promise is rejected, however, the
+            // result for this iteration will be rejected with the same
+            // reason. Note that rejections of yielded Promises are not
+            // thrown back into the generator function, as is the case
+            // when an awaited Promise is rejected. This difference in
+            // behavior between yield and await is important, because it
+            // allows the consumer to decide what to do with the yielded
+            // rejection (swallow it and continue, manually .throw it back
+            // into the generator, abandon iteration, whatever). With
+            // await, by contrast, there is no opportunity to examine the
+            // rejection reason outside the generator function, so the
+            // only option is to throw it from the await expression, and
+            // let the generator function handle the exception.
+            result.value = unwrapped;
+            return result;
+          });
     }
 
-    if ((typeof process === "undefined" ? "undefined" : _typeof(process)) === "object" && process.domain) {
+    if (typeof process === "object" && process.domain) {
       invoke = process.domain.bind(invoke);
     }
 
@@ -878,24 +851,26 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       }
 
       return previousPromise =
-      // If enqueue has been called before, then we want to wait until
-      // all previous Promises have been resolved before calling invoke,
-      // so that results are always delivered in the correct order. If
-      // enqueue has not been called before, then it is important to
-      // call invoke immediately, without waiting on a callback to fire,
-      // so that the async generator function has the opportunity to do
-      // any necessary setup in a predictable way. This predictability
-      // is why the Promise constructor synchronously invokes its
-      // executor callback, and why async functions synchronously
-      // execute code before the first await. Since we implement simple
-      // async functions in terms of async generators, it is especially
-      // important to get this right, even though it requires care.
-      previousPromise ? previousPromise.then(callInvokeWithMethodAndArg,
-      // Avoid propagating failures to Promises returned by later
-      // invocations of the iterator.
-      callInvokeWithMethodAndArg) : new Promise(function (resolve) {
-        resolve(callInvokeWithMethodAndArg());
-      });
+        // If enqueue has been called before, then we want to wait until
+        // all previous Promises have been resolved before calling invoke,
+        // so that results are always delivered in the correct order. If
+        // enqueue has not been called before, then it is important to
+        // call invoke immediately, without waiting on a callback to fire,
+        // so that the async generator function has the opportunity to do
+        // any necessary setup in a predictable way. This predictability
+        // is why the Promise constructor synchronously invokes its
+        // executor callback, and why async functions synchronously
+        // execute code before the first await. Since we implement simple
+        // async functions in terms of async generators, it is especially
+        // important to get this right, even though it requires care.
+        previousPromise ? previousPromise.then(
+          callInvokeWithMethodAndArg,
+          // Avoid propagating failures to Promises returned by later
+          // invocations of the iterator.
+          callInvokeWithMethodAndArg
+        ) : new Promise(function (resolve) {
+          resolve(callInvokeWithMethodAndArg());
+        });
     }
 
     // Define the unified helper method that is used to implement .next,
@@ -908,13 +883,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   // Note that simple async functions are implemented on top of
   // AsyncIterator objects; they just return a Promise for the value of
   // the final result produced by the iterator.
-  runtime.async = function (innerFn, outerFn, self, tryLocsList) {
-    var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList));
+  runtime.async = function(innerFn, outerFn, self, tryLocsList) {
+    var iter = new AsyncIterator(
+      wrap(innerFn, outerFn, self, tryLocsList)
+    );
 
-    return runtime.isGeneratorFunction(outerFn) ? iter // If outerFn is a generator, return the full iterator.
-    : iter.next().then(function (result) {
-      return result.done ? result.value : iter.next();
-    });
+    return runtime.isGeneratorFunction(outerFn)
+      ? iter // If outerFn is a generator, return the full iterator.
+      : iter.next().then(function(result) {
+          return result.done ? result.value : iter.next();
+        });
   };
 
   function makeInvokeMethod(innerFn, self, context) {
@@ -938,7 +916,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       while (true) {
         var delegate = context.delegate;
         if (delegate) {
-          if (method === "return" || method === "throw" && delegate.iterator[method] === undefined) {
+          if (method === "return" ||
+              (method === "throw" && delegate.iterator[method] === undefined)) {
             // A return or throw (when the delegate iterator has no throw
             // method) always terminates the yield* loop.
             context.delegate = null;
@@ -964,7 +943,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             }
           }
 
-          var record = tryCatch(delegate.iterator[method], delegate.iterator, arg);
+          var record = tryCatch(
+            delegate.iterator[method],
+            delegate.iterator,
+            arg
+          );
 
           if (record.type === "throw") {
             context.delegate = null;
@@ -1014,6 +997,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             method = "next";
             arg = undefined;
           }
+
         } else if (method === "return") {
           context.abrupt("return", arg);
         }
@@ -1024,7 +1008,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         if (record.type === "normal") {
           // If an exception is thrown from innerFn, we leave state ===
           // GenStateExecuting and loop back for another invocation.
-          state = context.done ? GenStateCompleted : GenStateSuspendedYield;
+          state = context.done
+            ? GenStateCompleted
+            : GenStateSuspendedYield;
 
           var info = {
             value: record.arg,
@@ -1040,6 +1026,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
           } else {
             return info;
           }
+
         } else if (record.type === "throw") {
           state = GenStateCompleted;
           // Dispatch the exception by looping back around to the
@@ -1055,11 +1042,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   // unified ._invoke helper method.
   defineIteratorMethods(Gp);
 
-  Gp[iteratorSymbol] = function () {
+  Gp[iteratorSymbol] = function() {
     return this;
   };
 
-  Gp.toString = function () {
+  Gp.toString = function() {
     return "[object Generator]";
   };
 
@@ -1094,7 +1081,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     this.reset(true);
   }
 
-  runtime.keys = function (object) {
+  runtime.keys = function(object) {
     var keys = [];
     for (var key in object) {
       keys.push(key);
@@ -1133,8 +1120,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       }
 
       if (!isNaN(iterable.length)) {
-        var i = -1,
-            next = function next() {
+        var i = -1, next = function next() {
           while (++i < iterable.length) {
             if (hasOwn.call(iterable, i)) {
               next.value = iterable[i];
@@ -1165,7 +1151,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   Context.prototype = {
     constructor: Context,
 
-    reset: function reset(skipTempReset) {
+    reset: function(skipTempReset) {
       this.prev = 0;
       this.next = 0;
       this.sent = undefined;
@@ -1177,14 +1163,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       if (!skipTempReset) {
         for (var name in this) {
           // Not sure about the optimal order of these conditions:
-          if (name.charAt(0) === "t" && hasOwn.call(this, name) && !isNaN(+name.slice(1))) {
+          if (name.charAt(0) === "t" &&
+              hasOwn.call(this, name) &&
+              !isNaN(+name.slice(1))) {
             this[name] = undefined;
           }
         }
       }
     },
 
-    stop: function stop() {
+    stop: function() {
       this.done = true;
 
       var rootEntry = this.tryEntries[0];
@@ -1196,7 +1184,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       return this.rval;
     },
 
-    dispatchException: function dispatchException(exception) {
+    dispatchException: function(exception) {
       if (this.done) {
         throw exception;
       }
@@ -1230,14 +1218,17 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             } else if (this.prev < entry.finallyLoc) {
               return handle(entry.finallyLoc);
             }
+
           } else if (hasCatch) {
             if (this.prev < entry.catchLoc) {
               return handle(entry.catchLoc, true);
             }
+
           } else if (hasFinally) {
             if (this.prev < entry.finallyLoc) {
               return handle(entry.finallyLoc);
             }
+
           } else {
             throw new Error("try statement without catch or finally");
           }
@@ -1245,16 +1236,22 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       }
     },
 
-    abrupt: function abrupt(type, arg) {
+    abrupt: function(type, arg) {
       for (var i = this.tryEntries.length - 1; i >= 0; --i) {
         var entry = this.tryEntries[i];
-        if (entry.tryLoc <= this.prev && hasOwn.call(entry, "finallyLoc") && this.prev < entry.finallyLoc) {
+        if (entry.tryLoc <= this.prev &&
+            hasOwn.call(entry, "finallyLoc") &&
+            this.prev < entry.finallyLoc) {
           var finallyEntry = entry;
           break;
         }
       }
 
-      if (finallyEntry && (type === "break" || type === "continue") && finallyEntry.tryLoc <= arg && arg <= finallyEntry.finallyLoc) {
+      if (finallyEntry &&
+          (type === "break" ||
+           type === "continue") &&
+          finallyEntry.tryLoc <= arg &&
+          arg <= finallyEntry.finallyLoc) {
         // Ignore the finally entry if control is not jumping to a
         // location outside the try/catch block.
         finallyEntry = null;
@@ -1273,12 +1270,13 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       return ContinueSentinel;
     },
 
-    complete: function complete(record, afterLoc) {
+    complete: function(record, afterLoc) {
       if (record.type === "throw") {
         throw record.arg;
       }
 
-      if (record.type === "break" || record.type === "continue") {
+      if (record.type === "break" ||
+          record.type === "continue") {
         this.next = record.arg;
       } else if (record.type === "return") {
         this.rval = record.arg;
@@ -1288,7 +1286,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       }
     },
 
-    finish: function finish(finallyLoc) {
+    finish: function(finallyLoc) {
       for (var i = this.tryEntries.length - 1; i >= 0; --i) {
         var entry = this.tryEntries[i];
         if (entry.finallyLoc === finallyLoc) {
@@ -1299,7 +1297,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       }
     },
 
-    "catch": function _catch(tryLoc) {
+    "catch": function(tryLoc) {
       for (var i = this.tryEntries.length - 1; i >= 0; --i) {
         var entry = this.tryEntries[i];
         if (entry.tryLoc === tryLoc) {
@@ -1317,7 +1315,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       throw new Error("illegal catch attempt");
     },
 
-    delegateYield: function delegateYield(iterable, resultName, nextLoc) {
+    delegateYield: function(iterable, resultName, nextLoc) {
       this.delegate = {
         iterator: values(iterable),
         resultName: resultName,
@@ -1327,15 +1325,19 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       return ContinueSentinel;
     }
   };
-}(
-// Among the various tricks for obtaining a reference to the global
-// object, this seems to be the most reliable technique that does not
-// use indirect eval (which violates Content Security Policy).
-(typeof global === "undefined" ? "undefined" : _typeof(global)) === "object" ? global : (typeof window === "undefined" ? "undefined" : _typeof(window)) === "object" ? window : (typeof self === "undefined" ? "undefined" : _typeof(self)) === "object" ? self : undefined);
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(5), __webpack_require__(4)(module), __webpack_require__(3)))
+})(
+  // Among the various tricks for obtaining a reference to the global
+  // object, this seems to be the most reliable technique that does not
+  // use indirect eval (which violates Content Security Policy).
+  typeof global === "object" ? global :
+  typeof window === "object" ? window :
+  typeof self === "object" ? self : this
+);
+
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(4), __webpack_require__(3)))
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1347,7 +1349,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-__webpack_require__(6);
+__webpack_require__(5);
 
 var _BaseComponent2 = __webpack_require__(2);
 
@@ -1412,13 +1414,13 @@ var Component = function (_BaseComponent) {
 exports.default = Component;
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _Component = __webpack_require__(7);
+var _Component = __webpack_require__(6);
 
 var _Component2 = _interopRequireDefault(_Component);
 

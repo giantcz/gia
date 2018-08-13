@@ -8,10 +8,12 @@
     "compile-base-component": "babel --presets es2015,stage-0 src/BaseComponent.js --out-file BaseComponent.js",
     "compile-get-component-from-element": "babel --presets es2015,stage-0 src/getComponentFromElement.js --out-file getComponentFromElement.js",
     "compile-load-components": "babel --presets es2015,stage-0 src/loadComponents.js --out-file loadComponents.js",
+    "compile-create-instance": "babel --presets es2015,stage-0 src/createInstance.js --out-file createInstance.js",
     "compile-remove-components": "babel --presets es2015,stage-0 src/removeComponents.js --out-file removeComponents.js",
+    "compile-destroy-instance": "babel --presets es2015,stage-0 src/destroyInstance.js --out-file destroyInstance.js",
     "compile-utils": "babel --presets es2015,stage-0 src/utils.js --out-file utils.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile": "npm run compile-component && npm run compile-base-component && npm run compile-get-component-from-element && npm run compile-load-components && npm run compile-remove-components && npm run compile-utils",
+    "compile": "npm run compile-component && npm run compile-base-component && npm run compile-get-component-from-element && npm run compile-load-components && npm run compile-create-instance && npm run compile-remove-components && npm run compile-destroy-instance && npm run compile-utils",
     "build": "webpack-cli",
     "prepublish": "npm run compile"
   },
