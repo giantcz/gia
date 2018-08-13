@@ -16,8 +16,6 @@ export default class Component {
         this.options = {};
         this.options = {};
         this._state = {};
-        this.props = {};
-        this.children = {};
     }
 
     get ref() {
@@ -62,7 +60,6 @@ export default class Component {
     }
 
     _load() {
-        this.getChildren();
         this.componentDidMount();
         this.prepare();
     }
@@ -186,34 +183,5 @@ export default class Component {
     }
 
     stateChange(stateChanges) {}
-
-    setProp(name, prop) {
-        if(this.props[name] != null) {
-            console.warn(`You are rewriting previously defined prop (${name}).`);
-        }
-        this.props[name] = prop;
-    }
-
-    getChildren() {
-        // children
-        this.children = {};
-        queryAll('[g-component]', this.element).forEach(element => {
-            if(element.dataset.componentName != null) {
-                if(this.children[element.dataset.componentName] == null) {
-                    this.children[element.dataset.componentName] = getComponentFromElement(element);
-                    getComponentFromElement(element).parent = this;
-                } else {
-                    console.warn(`Two children with same name ${element.dataset.componentName}`);
-                }
-            } else {
-                if(this.children[element.dataset.component] == null) {
-                    this.children[element.dataset.component] = getComponentFromElement(element);
-                    getComponentFromElement(element).parent = this;
-                } else {
-                    console.warn(`Two children with same name ${element.dataset.component}`);
-                }
-            }
-        });
-    }
 
 }
