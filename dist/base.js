@@ -76,7 +76,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -193,6 +193,73 @@ function triggerEvent(element, eventType) {
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Component with code splitting support
+ */
+
+var Store = function () {
+    function Store() {
+        _classCallCheck(this, Store);
+
+        this.list = {};
+    }
+
+    _createClass(Store, [{
+        key: "dispatch",
+        value: function dispatch(event) {
+            if (this.list[event]) {
+                this.list[event].forEach(function (handler) {
+                    return handler();
+                });
+                console.info(this.list[event].length + " handler" + (this.list[event].length > 1 ? "s" : "") + " called on event '" + event + "'");
+            } else {
+                console.info("0 handlers called on event '" + event + "'");
+            }
+        }
+    }, {
+        key: "subscribe",
+        value: function subscribe(event, handler) {
+            if (this.list[event]) {
+                this.list[event].push(handler);
+            } else {
+                this.list[event] = [];
+                this.list[event].push(handler);
+            }
+        }
+    }, {
+        key: "unsubscribe",
+        value: function unsubscribe(event, handler) {
+            if (this.list[event] && this.list[event][handler]) {
+                var index = this.list[event].indexOf(handler);
+                if (index > -1) {
+                    this.list[event].splice(index, 1);
+                }
+            } else {
+                console.warn("Event " + event + " cannot be unsubscribed - does not exist.");
+            }
+        }
+    }]);
+
+    return Store;
+}();
+
+exports.default = new Store();
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -421,7 +488,7 @@ var Component = function () {
 exports.default = Component;
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -447,7 +514,7 @@ function destroyInstance(element) {
 }
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -460,7 +527,7 @@ exports.default = removeComponents;
 
 var _utils = __webpack_require__(1);
 
-var _destroyInstance = __webpack_require__(3);
+var _destroyInstance = __webpack_require__(4);
 
 var _destroyInstance2 = _interopRequireDefault(_destroyInstance);
 
@@ -480,7 +547,7 @@ function removeComponents() {
 }
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -505,7 +572,7 @@ function createInstance(element, componentName, components) {
 }
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -522,7 +589,7 @@ var _getComponentFromElement = __webpack_require__(0);
 
 var _getComponentFromElement2 = _interopRequireDefault(_getComponentFromElement);
 
-var _createInstance = __webpack_require__(5);
+var _createInstance = __webpack_require__(6);
 
 var _createInstance2 = _interopRequireDefault(_createInstance);
 
@@ -570,17 +637,17 @@ function loadComponents() {
 }
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _loadComponents = __webpack_require__(6);
+var _loadComponents = __webpack_require__(7);
 
 var _loadComponents2 = _interopRequireDefault(_loadComponents);
 
-var _removeComponents = __webpack_require__(4);
+var _removeComponents = __webpack_require__(5);
 
 var _removeComponents2 = _interopRequireDefault(_removeComponents);
 
@@ -588,9 +655,13 @@ var _getComponentFromElement = __webpack_require__(0);
 
 var _getComponentFromElement2 = _interopRequireDefault(_getComponentFromElement);
 
-var _BaseComponent = __webpack_require__(2);
+var _BaseComponent = __webpack_require__(3);
 
 var _BaseComponent2 = _interopRequireDefault(_BaseComponent);
+
+var _store = __webpack_require__(2);
+
+var _store2 = _interopRequireDefault(_store);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -600,7 +671,8 @@ module.exports = {
     removeComponents: _removeComponents2.default,
     destroyInstance: _removeComponents2.default,
     Component: _BaseComponent2.default,
-    getComponentFromElement: _getComponentFromElement2.default
+    getComponentFromElement: _getComponentFromElement2.default,
+    store: _store2.default
 };
 
 /***/ })
