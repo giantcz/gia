@@ -234,14 +234,11 @@ var Component = function () {
         this.options = {};
         this.options = {};
         this._state = {};
-        this.props = {};
-        this.children = {};
     }
 
     _createClass(Component, [{
         key: '_load',
         value: function _load() {
-            this.getChildren();
             this.componentDidMount();
             this.prepare();
         }
@@ -378,39 +375,6 @@ var Component = function () {
     }, {
         key: 'stateChange',
         value: function stateChange(stateChanges) {}
-    }, {
-        key: 'setProp',
-        value: function setProp(name, prop) {
-            if (this.props[name] != null) {
-                console.warn('You are rewriting previously defined prop (' + name + ').');
-            }
-            this.props[name] = prop;
-        }
-    }, {
-        key: 'getChildren',
-        value: function getChildren() {
-            var _this3 = this;
-
-            // children
-            this.children = {};
-            (0, _utils.queryAll)('[g-component]', this.element).forEach(function (element) {
-                if (element.dataset.componentName != null) {
-                    if (_this3.children[element.dataset.componentName] == null) {
-                        _this3.children[element.dataset.componentName] = (0, _getComponentFromElement2.default)(element);
-                        (0, _getComponentFromElement2.default)(element).parent = _this3;
-                    } else {
-                        console.warn('Two children with same name ' + element.dataset.componentName);
-                    }
-                } else {
-                    if (_this3.children[element.dataset.component] == null) {
-                        _this3.children[element.dataset.component] = (0, _getComponentFromElement2.default)(element);
-                        (0, _getComponentFromElement2.default)(element).parent = _this3;
-                    } else {
-                        console.warn('Two children with same name ' + element.dataset.component);
-                    }
-                }
-            });
-        }
     }, {
         key: 'ref',
         get: function get() {

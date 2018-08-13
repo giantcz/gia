@@ -224,7 +224,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function removeComponents() {
     var context = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.documentElement;
 
-    (0, _utils.queryAll)('[g:component]', context).forEach(function (element) {
+    (0, _utils.queryAll)('[g-component]', context).forEach(function (element) {
         (0, _destroyInstance2.default)(element);
     });
 }
