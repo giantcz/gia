@@ -188,7 +188,7 @@ export default class Component {
 
     delegate(eventName, refName, handler) {
         this.element.addEventListener(eventName, event => {
-            if (event.target.getAttribute('g-ref') === refName) {
+            if (event.target.getAttribute('g-ref') === refName || event.target.getAttribute('g-ref') === this._name + ":" + refName) {
                 handler(event);
             }
         });
