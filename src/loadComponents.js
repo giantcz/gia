@@ -28,7 +28,7 @@ export default function loadComponents(components = {}, context = document.docum
         let componentName = element.getAttribute('g-component');
 
         if (typeof components[componentName] === 'function') {
-            initialisedComponents.push(createInstance(element, componentName, components));
+            initialisedComponents.push(createInstance(element, componentName, components[componentName]));
         } else {
             console.warn(`Constructor for component "${componentName}" not found.`);
         }

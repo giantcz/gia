@@ -4,10 +4,10 @@
  * @param componentName: Component constructor
  */
 
-export default function createInstance(element, componentName, components) {
-    components[componentName].prototype._name = componentName;
-    const component = new components[componentName](element);
+export default function createInstance(element, componentName, component) {
+    component.prototype._name = componentName;
+    const instance = new component(element);
 
     console.info(`Created instance of component "${componentName}".`);
-    return component;
+    return instance;
 }
