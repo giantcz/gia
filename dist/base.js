@@ -443,6 +443,15 @@ var Component = function () {
         key: 'stateChange',
         value: function stateChange(stateChanges) {}
     }, {
+        key: 'delegate',
+        value: function delegate(eventName, refName, handler) {
+            this.element.addEventListener(eventName, function (event) {
+                if (event.target.getAttribute('g-ref') === refName) {
+                    handler(event);
+                }
+            });
+        }
+    }, {
         key: 'ref',
         get: function get() {
             return this._ref;

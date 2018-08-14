@@ -184,4 +184,12 @@ export default class Component {
 
     stateChange(stateChanges) {}
 
+    delegate(eventName, refName, handler) {
+        this.element.addEventListener(eventName, event => {
+            if (event.target.getAttribute('g-ref') === refName) {
+                handler(event);
+            }
+        });
+    }
+
 }
