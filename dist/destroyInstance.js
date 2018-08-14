@@ -76,7 +76,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -87,22 +87,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
-exports.default = destroyInstance;
+exports.default = getComponentFromElement;
 /**
- * destroys and removes instance from DOM element
+ * Return instance from element
  * @param element: DOM element
+ * @returns component instance
  */
 
-function destroyInstance(element) {
-    var instance = getComponentFromElement(element);
-    if (instance) {
-        var name = instance._name;
-        instance.destroy();
-        element['__base_component__'] = null;
-        console.info('Removed component "' + name + '".');
-    }
+function getComponentFromElement(element) {
+  return element['__base_component__'];
 }
 
 /***/ }),
@@ -112,7 +107,40 @@ function destroyInstance(element) {
 "use strict";
 
 
-var _destroyInstance = __webpack_require__(0);
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = destroyInstance;
+
+var _getComponentFromElement = __webpack_require__(0);
+
+var _getComponentFromElement2 = _interopRequireDefault(_getComponentFromElement);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * destroys and removes instance from DOM element
+ * @param element: DOM element
+ */
+
+function destroyInstance(element) {
+    var instance = (0, _getComponentFromElement2.default)(element);
+    if (instance) {
+        var name = instance._name;
+        instance.destroy();
+        element['__base_component__'] = null;
+        console.info('Removed component "' + name + '".');
+    }
+}
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _destroyInstance = __webpack_require__(1);
 
 var _destroyInstance2 = _interopRequireDefault(_destroyInstance);
 

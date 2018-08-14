@@ -1,3 +1,5 @@
+import getComponentFromElement from './getComponentFromElement';
+
 /**
  * destroys and removes instance from DOM element
  * @param element: DOM element

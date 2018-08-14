@@ -76,32 +76,11 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = getComponentFromElement;
-/**
- * Return instance from element
- * @param element: DOM element
- * @returns component instance
- */
-
-function getComponentFromElement(element) {
-  return element['__base_component__'];
-}
-
-/***/ }),
-/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -192,7 +171,7 @@ function triggerEvent(element, eventType) {
 }
 
 /***/ }),
-/* 2 */
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -208,13 +187,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _utils = __webpack_require__(1);
-
-var _getComponentFromElement = __webpack_require__(0);
-
-var _getComponentFromElement2 = _interopRequireDefault(_getComponentFromElement);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _utils = __webpack_require__(0);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -286,7 +259,7 @@ var Component = function () {
                     }
 
                     if (name.split(':').length > 1) {
-                        if (name.split(':')[0] == _this._name) {
+                        if (name.split(':')[0] === _this._name) {
                             if (multiple) {
                                 items[name.split(':')[1]] = [];
                             } else {
@@ -362,9 +335,9 @@ var Component = function () {
             });
 
             Object.keys(stateChanges).forEach(function (key) {
-                if (newState[key].constructor === Array && stateChanges[key].length == 0) {
+                if (newState[key].constructor === Array && stateChanges[key].length === 0) {
                     delete stateChanges[key];
-                } else if (_typeof(newState[key]) === 'object' && Object.keys(stateChanges[key]).length == 0) {
+                } else if (_typeof(newState[key]) === 'object' && Object.keys(stateChanges[key]).length === 0) {
                     delete stateChanges[key];
                 }
             });
@@ -392,7 +365,7 @@ var Component = function () {
             return this._ref;
         },
         set: function set(items) {
-            if (Object.keys(items).length == 0) {
+            if (Object.keys(items).length === 0) {
                 this._ref = this._getRefElements();
             } else {
                 this._ref = {};
@@ -432,7 +405,7 @@ var Component = function () {
 exports.default = Component;
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -622,7 +595,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports) {
 
 var g;
@@ -648,7 +621,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, process) {/**
@@ -1309,10 +1282,10 @@ module.exports = g;
   typeof self === "object" ? self : this
 );
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(4), __webpack_require__(3)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(3), __webpack_require__(2)))
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1324,9 +1297,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-__webpack_require__(5);
+__webpack_require__(4);
 
-var _BaseComponent2 = __webpack_require__(2);
+var _BaseComponent2 = __webpack_require__(1);
 
 var _BaseComponent3 = _interopRequireDefault(_BaseComponent2);
 
@@ -1388,13 +1361,13 @@ var Component = function (_BaseComponent) {
 exports.default = Component;
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _Component = __webpack_require__(6);
+var _Component = __webpack_require__(5);
 
 var _Component2 = _interopRequireDefault(_Component);
 

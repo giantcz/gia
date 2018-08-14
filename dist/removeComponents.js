@@ -76,7 +76,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -87,16 +87,44 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = getComponentFromElement;
+/**
+ * Return instance from element
+ * @param element: DOM element
+ * @returns component instance
+ */
+
+function getComponentFromElement(element) {
+  return element['__base_component__'];
+}
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = destroyInstance;
+
+var _getComponentFromElement = __webpack_require__(0);
+
+var _getComponentFromElement2 = _interopRequireDefault(_getComponentFromElement);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 /**
  * destroys and removes instance from DOM element
  * @param element: DOM element
  */
 
 function destroyInstance(element) {
-    var instance = getComponentFromElement(element);
+    var instance = (0, _getComponentFromElement2.default)(element);
     if (instance) {
         var name = instance._name;
         instance.destroy();
@@ -106,7 +134,7 @@ function destroyInstance(element) {
 }
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -197,7 +225,7 @@ function triggerEvent(element, eventType) {
 }
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -208,9 +236,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = removeComponents;
 
-var _utils = __webpack_require__(1);
+var _utils = __webpack_require__(2);
 
-var _destroyInstance = __webpack_require__(0);
+var _destroyInstance = __webpack_require__(1);
 
 var _destroyInstance2 = _interopRequireDefault(_destroyInstance);
 
@@ -230,13 +258,13 @@ function removeComponents() {
 }
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _removeComponents = __webpack_require__(2);
+var _removeComponents = __webpack_require__(3);
 
 var _removeComponents2 = _interopRequireDefault(_removeComponents);
 

@@ -244,7 +244,7 @@ var Store = function () {
         value: function off(event, handler) {
             if (event != null) {
                 if (handler != null) {
-                    if (this.list[event] && this.list[event].indexOf(handler) != -1) {
+                    if (this.list[event] && this.list[event].indexOf(handler) !== -1) {
                         var index = this.list[event].indexOf(handler);
                         if (index > -1) {
                             this.list[event].splice(index, 1);
@@ -284,12 +284,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _utils = __webpack_require__(1);
-
-var _getComponentFromElement = __webpack_require__(0);
-
-var _getComponentFromElement2 = _interopRequireDefault(_getComponentFromElement);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -361,7 +355,7 @@ var Component = function () {
                     }
 
                     if (name.split(':').length > 1) {
-                        if (name.split(':')[0] == _this._name) {
+                        if (name.split(':')[0] === _this._name) {
                             if (multiple) {
                                 items[name.split(':')[1]] = [];
                             } else {
@@ -437,9 +431,9 @@ var Component = function () {
             });
 
             Object.keys(stateChanges).forEach(function (key) {
-                if (newState[key].constructor === Array && stateChanges[key].length == 0) {
+                if (newState[key].constructor === Array && stateChanges[key].length === 0) {
                     delete stateChanges[key];
-                } else if (_typeof(newState[key]) === 'object' && Object.keys(stateChanges[key]).length == 0) {
+                } else if (_typeof(newState[key]) === 'object' && Object.keys(stateChanges[key]).length === 0) {
                     delete stateChanges[key];
                 }
             });
@@ -467,7 +461,7 @@ var Component = function () {
             return this._ref;
         },
         set: function set(items) {
-            if (Object.keys(items).length == 0) {
+            if (Object.keys(items).length === 0) {
                 this._ref = this._getRefElements();
             } else {
                 this._ref = {};
@@ -517,13 +511,20 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = destroyInstance;
+
+var _getComponentFromElement = __webpack_require__(0);
+
+var _getComponentFromElement2 = _interopRequireDefault(_getComponentFromElement);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 /**
  * destroys and removes instance from DOM element
  * @param element: DOM element
  */
 
 function destroyInstance(element) {
-    var instance = getComponentFromElement(element);
+    var instance = (0, _getComponentFromElement2.default)(element);
     if (instance) {
         var name = instance._name;
         instance.destroy();

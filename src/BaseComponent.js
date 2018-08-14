@@ -1,5 +1,4 @@
 import { query, queryAll } from './utils';
-import getComponentFromElement from './getComponentFromElement';
 
 /**
  * Component without code splitting support
@@ -21,7 +20,7 @@ export default class Component {
     }
 
     set ref(items) {
-        if (Object.keys(items).length == 0) {
+        if (Object.keys(items).length === 0) {
             this._ref = this._getRefElements();
         } else {
             this._ref = {};
@@ -97,7 +96,7 @@ export default class Component {
                 }
 
                 if (name.split(':').length > 1) {
-                    if (name.split(':')[0] == this._name) {
+                    if (name.split(':')[0] === this._name) {
                         if (multiple) {
                             items[ name.split(':')[1] ] = [];
                         } else {
@@ -121,7 +120,7 @@ export default class Component {
                     if (elements.length === 0) {
                         elements = queryAll(this.getRef(key.slice(0, -1), true), this.element);
                         if (elements.length === 0) {
-                            elements = queryAll(this.getRef(key + '[]'), this.element)
+                            elements = queryAll(this.getRef(key + '[]'), this.element);
                             if (elements.length === 0) {
                                 elements = queryAll(this.getRef(key.slice(0, -1)), this.element)
                             }
@@ -172,9 +171,9 @@ export default class Component {
         });
 
         Object.keys(stateChanges).forEach(key => {
-            if (newState[key].constructor === Array && stateChanges[key].length == 0) {
+            if (newState[key].constructor === Array && stateChanges[key].length === 0) {
                 delete stateChanges[key];
-            } else if (typeof newState[key] === 'object' && Object.keys(stateChanges[key]).length == 0) {
+            } else if (typeof newState[key] === 'object' && Object.keys(stateChanges[key]).length === 0) {
                 delete stateChanges[key];
             }
         });

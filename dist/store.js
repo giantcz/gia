@@ -132,7 +132,7 @@ var Store = function () {
         value: function off(event, handler) {
             if (event != null) {
                 if (handler != null) {
-                    if (this.list[event] && this.list[event].indexOf(handler) != -1) {
+                    if (this.list[event] && this.list[event].indexOf(handler) !== -1) {
                         var index = this.list[event].indexOf(handler);
                         if (index > -1) {
                             this.list[event].splice(index, 1);
