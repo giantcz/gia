@@ -1,7 +1,8 @@
 /**
  * Creates and returns instance of component
  * @param element: DOM element
- * @param componentName: Component constructor
+ * @param componentName: Component name
+ * @param component: Component constructor
  */
 
 export default function createInstance(element, componentName, component) {
