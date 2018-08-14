@@ -218,8 +218,8 @@ var Store = function () {
     }
 
     _createClass(Store, [{
-        key: "dispatch",
-        value: function dispatch(event) {
+        key: "emit",
+        value: function emit(event) {
             if (this.list[event]) {
                 this.list[event].forEach(function (handler) {
                     return handler();
@@ -230,8 +230,8 @@ var Store = function () {
             }
         }
     }, {
-        key: "subscribe",
-        value: function subscribe(event, handler) {
+        key: "on",
+        value: function on(event, handler) {
             if (this.list[event]) {
                 this.list[event].push(handler);
             } else {
@@ -240,15 +240,23 @@ var Store = function () {
             }
         }
     }, {
-        key: "unsubscribe",
-        value: function unsubscribe(event, handler) {
-            if (this.list[event] && this.list[event].indexOf(handler) != -1) {
-                var index = this.list[event].indexOf(handler);
-                if (index > -1) {
-                    this.list[event].splice(index, 1);
+        key: "off",
+        value: function off(event, handler) {
+            if (event != null) {
+                if (handler != null) {
+                    if (this.list[event] && this.list[event].indexOf(handler) != -1) {
+                        var index = this.list[event].indexOf(handler);
+                        if (index > -1) {
+                            this.list[event].splice(index, 1);
+                        }
+                    } else {
+                        console.warn("Event " + event + " cannot be unsubscribed - does not exist.");
+                    }
+                } else {
+                    this.list[event] = [];
                 }
             } else {
-                console.warn("Event " + event + " cannot be unsubscribed - does not exist.");
+                this.list = {};
             }
         }
     }]);
@@ -290,16 +298,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  */
 
 var Component = function () {
-    function Component(element) {
+    function Component(element, options) {
         _classCallCheck(this, Component);
 
         this.element = element;
         this.element['__base_component__'] = this;
         this._ref = {};
         this.ref = {};
-        this._options = {};
-        this.options = {};
-        this.options = {};
+        this._options = options || {};
         this._state = {};
     }
 
@@ -311,7 +317,9 @@ var Component = function () {
         }
     }, {
         key: 'componentDidMount',
-        value: function componentDidMount() {}
+        value: function componentDidMount() {
+            // this is here only to be rewritten by extend
+        }
     }, {
         key: 'prepare',
         value: function prepare() {
@@ -441,7 +449,9 @@ var Component = function () {
         }
     }, {
         key: 'stateChange',
-        value: function stateChange(stateChanges) {}
+        value: function stateChange(stateChanges) {
+            // this is here only to be rewritten by extend
+        }
     }, {
         key: 'delegate',
         value: function delegate(eventName, refName, handler) {
@@ -478,7 +488,7 @@ var Component = function () {
                 options = JSON.parse(optionsFromAttribute);
             }
 
-            this._options = _extends({}, defaults, options);
+            this._options = _extends({}, this._options, defaults, options);
         }
     }, {
         key: 'state',
@@ -569,15 +579,16 @@ exports.default = createInstance;
 /**
  * Creates and returns instance of component
  * @param element: DOM element
- * @param componentName: Component constructor
+ * @param componentName: Component name
+ * @param component: Component constructor
  */
 
-function createInstance(element, componentName, components) {
-  components[componentName].prototype._name = componentName;
-  var component = new components[componentName](element);
+function createInstance(element, componentName, component) {
+  component.prototype._name = componentName;
+  var instance = new component(element);
 
   console.info("Created instance of component \"" + componentName + "\".");
-  return component;
+  return instance;
 }
 
 /***/ }),
@@ -633,7 +644,7 @@ function loadComponents() {
         var componentName = element.getAttribute('g-component');
 
         if (typeof components[componentName] === 'function') {
-            initialisedComponents.push((0, _createInstance2.default)(element, componentName, components));
+            initialisedComponents.push((0, _createInstance2.default)(element, componentName, components[componentName]));
         } else {
             console.warn('Constructor for component "' + componentName + '" not found.');
         }

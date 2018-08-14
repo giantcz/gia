@@ -93,15 +93,16 @@ exports.default = createInstance;
 /**
  * Creates and returns instance of component
  * @param element: DOM element
- * @param componentName: Component constructor
+ * @param componentName: Component name
+ * @param component: Component constructor
  */
 
-function createInstance(element, componentName, components) {
-  components[componentName].prototype._name = componentName;
-  var component = new components[componentName](element);
+function createInstance(element, componentName, component) {
+  component.prototype._name = componentName;
+  var instance = new component(element);
 
   console.info("Created instance of component \"" + componentName + "\".");
-  return component;
+  return instance;
 }
 
 /***/ }),
@@ -269,7 +270,7 @@ function loadComponents() {
         var componentName = element.getAttribute('g-component');
 
         if (typeof components[componentName] === 'function') {
-            initialisedComponents.push((0, _createInstance2.default)(element, componentName, components));
+            initialisedComponents.push((0, _createInstance2.default)(element, componentName, components[componentName]));
         } else {
             console.warn('Constructor for component "' + componentName + '" not found.');
         }

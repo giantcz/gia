@@ -106,8 +106,8 @@ var Store = function () {
     }
 
     _createClass(Store, [{
-        key: "dispatch",
-        value: function dispatch(event) {
+        key: "emit",
+        value: function emit(event) {
             if (this.list[event]) {
                 this.list[event].forEach(function (handler) {
                     return handler();
@@ -118,8 +118,8 @@ var Store = function () {
             }
         }
     }, {
-        key: "subscribe",
-        value: function subscribe(event, handler) {
+        key: "on",
+        value: function on(event, handler) {
             if (this.list[event]) {
                 this.list[event].push(handler);
             } else {
@@ -128,15 +128,23 @@ var Store = function () {
             }
         }
     }, {
-        key: "unsubscribe",
-        value: function unsubscribe(event, handler) {
-            if (this.list[event] && this.list[event].indexOf(handler) != -1) {
-                var index = this.list[event].indexOf(handler);
-                if (index > -1) {
-                    this.list[event].splice(index, 1);
+        key: "off",
+        value: function off(event, handler) {
+            if (event != null) {
+                if (handler != null) {
+                    if (this.list[event] && this.list[event].indexOf(handler) != -1) {
+                        var index = this.list[event].indexOf(handler);
+                        if (index > -1) {
+                            this.list[event].splice(index, 1);
+                        }
+                    } else {
+                        console.warn("Event " + event + " cannot be unsubscribed - does not exist.");
+                    }
+                } else {
+                    this.list[event] = [];
                 }
             } else {
-                console.warn("Event " + event + " cannot be unsubscribed - does not exist.");
+                this.list = {};
             }
         }
     }]);

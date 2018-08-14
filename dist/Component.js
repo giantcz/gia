@@ -223,16 +223,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  */
 
 var Component = function () {
-    function Component(element) {
+    function Component(element, options) {
         _classCallCheck(this, Component);
 
         this.element = element;
         this.element['__base_component__'] = this;
         this._ref = {};
         this.ref = {};
-        this._options = {};
-        this.options = {};
-        this.options = {};
+        this._options = options || {};
         this._state = {};
     }
 
@@ -244,7 +242,9 @@ var Component = function () {
         }
     }, {
         key: 'componentDidMount',
-        value: function componentDidMount() {}
+        value: function componentDidMount() {
+            // this is here only to be rewritten by extend
+        }
     }, {
         key: 'prepare',
         value: function prepare() {
@@ -374,7 +374,9 @@ var Component = function () {
         }
     }, {
         key: 'stateChange',
-        value: function stateChange(stateChanges) {}
+        value: function stateChange(stateChanges) {
+            // this is here only to be rewritten by extend
+        }
     }, {
         key: 'delegate',
         value: function delegate(eventName, refName, handler) {
@@ -411,7 +413,7 @@ var Component = function () {
                 options = JSON.parse(optionsFromAttribute);
             }
 
-            this._options = _extends({}, defaults, options);
+            this._options = _extends({}, this._options, defaults, options);
         }
     }, {
         key: 'state',
