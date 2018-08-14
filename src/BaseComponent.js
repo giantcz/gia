@@ -7,14 +7,12 @@ import getComponentFromElement from './getComponentFromElement';
 
 export default class Component {
 
-    constructor(element) {
+    constructor(element, options) {
         this.element = element;
         this.element['__base_component__'] = this;
         this._ref = {};
         this.ref = {};
-        this._options = {};
-        this.options = {};
-        this.options = {};
+        this._options = options || {};
         this._state = {};
     }
 
@@ -45,6 +43,7 @@ export default class Component {
         }
 
         this._options = {
+            ...this._options,
             ...defaults,
             ...options,
         }
@@ -64,7 +63,9 @@ export default class Component {
         this.prepare();
     }
 
-    componentDidMount() {}
+    componentDidMount() {
+        // this is here only to be rewritten by extend
+    }
 
     prepare() {
         console.warn(`Component ${this._name} does not have "prepare" method.`);
@@ -182,7 +183,9 @@ export default class Component {
         this._state = newState;
     }
 
-    stateChange(stateChanges) {}
+    stateChange(stateChanges) {
+        // this is here only to be rewritten by extend
+    }
 
     delegate(eventName, refName, handler) {
         this.element.addEventListener(eventName, event => {
