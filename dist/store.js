@@ -130,7 +130,7 @@ var Store = function () {
     }, {
         key: "unsubscribe",
         value: function unsubscribe(event, handler) {
-            if (this.list[event] && this.list[event][handler]) {
+            if (this.list[event] && this.list[event].indexOf(handler) != -1) {
                 var index = this.list[event].indexOf(handler);
                 if (index > -1) {
                     this.list[event].splice(index, 1);
