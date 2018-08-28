@@ -22,6 +22,6 @@ lib
 /createInstance.js
 /removeComponents.js
 /destroyInstance.js
-/store.js
+/eventbus.js
 /utils.js
 /index.html

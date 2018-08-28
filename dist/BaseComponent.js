@@ -200,7 +200,7 @@ var Component = function () {
         _classCallCheck(this, Component);
 
         this.element = element;
-        this.element['__base_component__'] = this;
+        this.element['__goop_component__'] = this;
         this._ref = {};
         this.ref = {};
         this._options = options || {};
@@ -353,8 +353,10 @@ var Component = function () {
     }, {
         key: 'delegate',
         value: function delegate(eventName, refName, handler) {
+            var _this3 = this;
+
             this.element.addEventListener(eventName, function (event) {
-                if (event.target.getAttribute('g-ref') === refName) {
+                if (event.target.getAttribute('g-ref') === refName || event.target.getAttribute('g-ref') === _this3._name + ":" + refName) {
                     handler(event);
                 }
             });

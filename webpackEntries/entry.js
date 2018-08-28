@@ -4,7 +4,7 @@ import removeComponents from '../src/removeComponents';
 import destroyInstance from '../src/removeComponents';
 import getComponentFromElement from '../src/getComponentFromElement';
 import BaseComponent from '../src/BaseComponent';
-import store from '../src/store';
+import eventbus from '../src/eventbus';
 
 module.exports = {
     loadComponents: loadComponents,
@@ -13,5 +13,5 @@ module.exports = {
     destroyInstance: destroyInstance,
     Component: BaseComponent,
     getComponentFromElement: getComponentFromElement,
-    store: store,
+    eventbus: eventbus,
 }

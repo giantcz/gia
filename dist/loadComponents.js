@@ -97,9 +97,9 @@ exports.default = createInstance;
  * @param component: Component constructor
  */
 
-function createInstance(element, componentName, component) {
+function createInstance(element, componentName, component, options) {
   component.prototype._name = componentName;
-  var instance = new component(element);
+  var instance = new component(element, options);
 
   console.info("Created instance of component \"" + componentName + "\".");
   return instance;

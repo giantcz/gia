@@ -1,9 +1,9 @@
 
 /**
- * Component with code splitting support
+ * Event bus for storing and executing handlers on emitted events
  */
 
-class Store {
+class EventBus {
 
     list = {};
 
@@ -46,4 +46,4 @@ class Store {
 
 }
 
-export default new Store();
+export default new EventBus();

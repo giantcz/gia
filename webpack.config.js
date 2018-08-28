@@ -9,7 +9,7 @@ const modules = [
     'removeComponents',
     'destroyInstance',
     'getComponentFromElement',
-    'store',
+    'eventbus',
 ];
 
 const defaultConfig = {

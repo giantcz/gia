@@ -207,17 +207,17 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
- * Component with code splitting support
+ * Event bus for storing and executing handlers on emitted events
  */
 
-var Store = function () {
-    function Store() {
-        _classCallCheck(this, Store);
+var EventBus = function () {
+    function EventBus() {
+        _classCallCheck(this, EventBus);
 
         this.list = {};
     }
 
-    _createClass(Store, [{
+    _createClass(EventBus, [{
         key: "emit",
         value: function emit(event) {
             if (this.list[event]) {
@@ -261,10 +261,10 @@ var Store = function () {
         }
     }]);
 
-    return Store;
+    return EventBus;
 }();
 
-exports.default = new Store();
+exports.default = new EventBus();
 
 /***/ }),
 /* 3 */
@@ -296,7 +296,7 @@ var Component = function () {
         _classCallCheck(this, Component);
 
         this.element = element;
-        this.element['__base_component__'] = this;
+        this.element['__goop_component__'] = this;
         this._ref = {};
         this.ref = {};
         this._options = options || {};
@@ -449,8 +449,10 @@ var Component = function () {
     }, {
         key: 'delegate',
         value: function delegate(eventName, refName, handler) {
+            var _this3 = this;
+
             this.element.addEventListener(eventName, function (event) {
-                if (event.target.getAttribute('g-ref') === refName) {
+                if (event.target.getAttribute('g-ref') === refName || event.target.getAttribute('g-ref') === _this3._name + ":" + refName) {
                     handler(event);
                 }
             });
@@ -584,9 +586,9 @@ exports.default = createInstance;
  * @param component: Component constructor
  */
 
-function createInstance(element, componentName, component) {
+function createInstance(element, componentName, component, options) {
   component.prototype._name = componentName;
-  var instance = new component(element);
+  var instance = new component(element, options);
 
   console.info("Created instance of component \"" + componentName + "\".");
   return instance;
@@ -680,9 +682,9 @@ var _BaseComponent = __webpack_require__(3);
 
 var _BaseComponent2 = _interopRequireDefault(_BaseComponent);
 
-var _store = __webpack_require__(2);
+var _eventbus = __webpack_require__(2);
 
-var _store2 = _interopRequireDefault(_store);
+var _eventbus2 = _interopRequireDefault(_eventbus);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -693,7 +695,7 @@ module.exports = {
     destroyInstance: _removeComponents2.default,
     Component: _BaseComponent2.default,
     getComponentFromElement: _getComponentFromElement2.default,
-    store: _store2.default
+    eventbus: _eventbus2.default
 };
 
 /***/ })

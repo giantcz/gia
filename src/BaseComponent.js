@@ -8,7 +8,7 @@ export default class Component {
 
     constructor(element, options) {
         this.element = element;
-        this.element['__base_component__'] = this;
+        this.element['__goop_component__'] = this;
         this._ref = {};
         this.ref = {};
         this._options = options || {};

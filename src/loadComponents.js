@@ -38,6 +38,7 @@ export default function loadComponents(components = {}, context = document.docum
     initialisedComponents.forEach(component => {
         component._load();
     });
+
 }
 
 
