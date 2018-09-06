@@ -23,5 +23,6 @@ lib
 /removeComponents.js
 /destroyInstance.js
 /eventbus.js
+/config.js
 /utils.js
 /index.html
