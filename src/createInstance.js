@@ -1,3 +1,5 @@
+import config from './config';
+
 /**
  * Creates and returns instance of component
  * @param element: DOM element
@@ -9,6 +11,8 @@ export default function createInstance(element, componentName, component, option
     component.prototype._name = componentName;
     const instance = new component(element, options);
 
-    console.info(`Created instance of component "${componentName}".`);
+    if (config.get('log')) {
+        console.info(`Created instance of component "${componentName}".`);
+    }
     return instance;
 }

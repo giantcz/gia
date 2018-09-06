@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["createInstance"] = factory();
+		exports["config"] = factory();
 	else
-		root["createInstance"] = factory();
+		root["config"] = factory();
 })(window, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -76,7 +76,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -131,48 +131,13 @@ exports.default = new Config();
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = createInstance;
-
 var _config = __webpack_require__(0);
 
 var _config2 = _interopRequireDefault(_config);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * Creates and returns instance of component
- * @param element: DOM element
- * @param componentName: Component name
- * @param component: Component constructor
- */
-
-function createInstance(element, componentName, component, options) {
-    component.prototype._name = componentName;
-    var instance = new component(element, options);
-
-    if (_config2.default.get('log')) {
-        console.info('Created instance of component "' + componentName + '".');
-    }
-    return instance;
-}
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var _createInstance = __webpack_require__(1);
-
-var _createInstance2 = _interopRequireDefault(_createInstance);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-module.exports = _createInstance2.default; // this is here for webpack to expose createInstance as window.createInstance
+module.exports = _config2.default; // this is here for webpack to expose config as window.config
 
 /***/ })
 /******/ ]);

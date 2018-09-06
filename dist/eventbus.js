@@ -153,7 +153,6 @@ var EventBus = function () {
                         var toRemove = this.list[event].filter(function (eventObject) {
                             return eventObject.handler === handler;
                         })[0];
-                        console.log(toRemove);
                         var index = this.list[event].indexOf(toRemove);
                         if (index > -1) {
                             this.list[event].splice(index, 1);
@@ -188,7 +187,7 @@ var _eventbus2 = _interopRequireDefault(_eventbus);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = _eventbus2.default; // this is here for webpack to expose store as window.eventbus
+module.exports = _eventbus2.default; // this is here for webpack to expose eventbus as window.eventbus
 
 /***/ })
 /******/ ]);

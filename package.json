@@ -13,8 +13,9 @@
     "compile-destroy-instance": "babel --presets es2015,stage-0 src/destroyInstance.js --out-file destroyInstance.js",
     "compile-utils": "babel --presets es2015,stage-0 src/utils.js --out-file utils.js",
     "compile-eventbus": "babel --presets es2015,stage-0 src/eventbus.js --out-file eventbus.js",
+    "compile-config": "babel --presets es2015,stage-0 src/config.js --out-file config.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "compile": "npm run compile-component && npm run compile-base-component && npm run compile-get-component-from-element && npm run compile-load-components && npm run compile-create-instance && npm run compile-remove-components && npm run compile-destroy-instance && npm run compile-utils && npm run compile-eventbus",
+    "compile": "npm run compile-component && npm run compile-base-component && npm run compile-get-component-from-element && npm run compile-load-components && npm run compile-create-instance && npm run compile-remove-components && npm run compile-destroy-instance && npm run compile-utils && npm run compile-eventbus && npm run compile-config",
     "build": "webpack-cli",
     "prepublish": "npm run compile"
   },

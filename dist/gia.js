@@ -76,7 +76,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 9);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -215,6 +215,51 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
+ * Config for setting and changing global settings
+ */
+
+var Config = function () {
+    function Config() {
+        _classCallCheck(this, Config);
+
+        this._options = {
+            log: true
+        };
+    }
+
+    _createClass(Config, [{
+        key: "set",
+        value: function set(name, value) {
+            this._options[name] = value;
+        }
+    }, {
+        key: "get",
+        value: function get(name) {
+            return this._options[name];
+        }
+    }]);
+
+    return Config;
+}();
+
+exports.default = new Config();
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
  * Event bus for storing and executing handlers on emitted events
  */
 
@@ -273,7 +318,6 @@ var EventBus = function () {
                         var toRemove = this.list[event].filter(function (eventObject) {
                             return eventObject.handler === handler;
                         })[0];
-                        console.log(toRemove);
                         var index = this.list[event].indexOf(toRemove);
                         if (index > -1) {
                             this.list[event].splice(index, 1);
@@ -296,7 +340,7 @@ var EventBus = function () {
 exports.default = new EventBus();
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -498,7 +542,7 @@ var Component = function () {
 exports.default = Component;
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -531,7 +575,7 @@ function destroyInstance(element) {
 }
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -544,7 +588,7 @@ exports.default = removeComponents;
 
 var _utils = __webpack_require__(1);
 
-var _destroyInstance = __webpack_require__(4);
+var _destroyInstance = __webpack_require__(5);
 
 var _destroyInstance2 = _interopRequireDefault(_destroyInstance);
 
@@ -564,16 +608,23 @@ function removeComponents() {
 }
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 exports.default = createInstance;
+
+var _config = __webpack_require__(2);
+
+var _config2 = _interopRequireDefault(_config);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 /**
  * Creates and returns instance of component
  * @param element: DOM element
@@ -582,15 +633,17 @@ exports.default = createInstance;
  */
 
 function createInstance(element, componentName, component, options) {
-  component.prototype._name = componentName;
-  var instance = new component(element, options);
+    component.prototype._name = componentName;
+    var instance = new component(element, options);
 
-  console.info("Created instance of component \"" + componentName + "\".");
-  return instance;
+    if (_config2.default.get('log')) {
+        console.info('Created instance of component "' + componentName + '".');
+    }
+    return instance;
 }
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -607,7 +660,7 @@ var _getComponentFromElement = __webpack_require__(0);
 
 var _getComponentFromElement2 = _interopRequireDefault(_getComponentFromElement);
 
-var _createInstance = __webpack_require__(6);
+var _createInstance = __webpack_require__(7);
 
 var _createInstance2 = _interopRequireDefault(_createInstance);
 
@@ -655,17 +708,17 @@ function loadComponents() {
 }
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _loadComponents = __webpack_require__(7);
+var _loadComponents = __webpack_require__(8);
 
 var _loadComponents2 = _interopRequireDefault(_loadComponents);
 
-var _removeComponents = __webpack_require__(5);
+var _removeComponents = __webpack_require__(6);
 
 var _removeComponents2 = _interopRequireDefault(_removeComponents);
 
@@ -673,13 +726,17 @@ var _getComponentFromElement = __webpack_require__(0);
 
 var _getComponentFromElement2 = _interopRequireDefault(_getComponentFromElement);
 
-var _BaseComponent = __webpack_require__(3);
+var _BaseComponent = __webpack_require__(4);
 
 var _BaseComponent2 = _interopRequireDefault(_BaseComponent);
 
-var _eventbus = __webpack_require__(2);
+var _eventbus = __webpack_require__(3);
 
 var _eventbus2 = _interopRequireDefault(_eventbus);
+
+var _config = __webpack_require__(2);
+
+var _config2 = _interopRequireDefault(_config);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -690,7 +747,8 @@ module.exports = {
     destroyInstance: _removeComponents2.default,
     Component: _BaseComponent2.default,
     getComponentFromElement: _getComponentFromElement2.default,
-    eventbus: _eventbus2.default
+    eventbus: _eventbus2.default,
+    config: _config2.default
 };
 
 /***/ })
