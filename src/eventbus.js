@@ -1,3 +1,4 @@
+import config from './config';
 
 /**
  * Event bus for storing and executing handlers on emitted events
@@ -10,7 +11,9 @@ class EventBus {
     emit(event, eventObject = {}) {
         eventObject._name = event;
         if (this.list[event]) {
-            console.info(`${this.list[event].length} handler${this.list[event].length > 1 ? "s" : ""} called on event '${event}'`);
+            if (config.get('log')) {
+                console.info(`${this.list[event].length} handler${this.list[event].length > 1 ? "s" : ""} called on event '${event}'`);
+            }
             this.list[event].forEach(handlerObject => {
                 handlerObject.handler(eventObject);
                 if (handlerObject.once) {
@@ -18,7 +21,9 @@ class EventBus {
                 }
             });
         } else {
-            console.info(`0 handlers called on event '${event}'`);
+            if (config.get('log')) {
+                console.info(`0 handlers called on event '${event}'`);
+            }
         }
     }
 

@@ -76,7 +76,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -95,6 +95,57 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 /**
+ * Config for setting and changing global settings
+ */
+
+var Config = function () {
+    function Config() {
+        _classCallCheck(this, Config);
+
+        this._options = {
+            log: true
+        };
+    }
+
+    _createClass(Config, [{
+        key: "set",
+        value: function set(name, value) {
+            this._options[name] = value;
+        }
+    }, {
+        key: "get",
+        value: function get(name) {
+            return this._options[name];
+        }
+    }]);
+
+    return Config;
+}();
+
+exports.default = new Config();
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _config = __webpack_require__(0);
+
+var _config2 = _interopRequireDefault(_config);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
  * Event bus for storing and executing handlers on emitted events
  */
 
@@ -106,7 +157,7 @@ var EventBus = function () {
     }
 
     _createClass(EventBus, [{
-        key: "emit",
+        key: 'emit',
         value: function emit(event) {
             var _this = this;
 
@@ -114,7 +165,9 @@ var EventBus = function () {
 
             eventObject._name = event;
             if (this.list[event]) {
-                console.info(this.list[event].length + " handler" + (this.list[event].length > 1 ? "s" : "") + " called on event '" + event + "'");
+                if (_config2.default.get('log')) {
+                    console.info(this.list[event].length + ' handler' + (this.list[event].length > 1 ? "s" : "") + ' called on event \'' + event + '\'');
+                }
                 this.list[event].forEach(function (handlerObject) {
                     handlerObject.handler(eventObject);
                     if (handlerObject.once) {
@@ -122,11 +175,13 @@ var EventBus = function () {
                     }
                 });
             } else {
-                console.info("0 handlers called on event '" + event + "'");
+                if (_config2.default.get('log')) {
+                    console.info('0 handlers called on event \'' + event + '\'');
+                }
             }
         }
     }, {
-        key: "on",
+        key: 'on',
         value: function on(event, handler) {
             var once = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
 
@@ -138,12 +193,12 @@ var EventBus = function () {
             }
         }
     }, {
-        key: "once",
+        key: 'once',
         value: function once(event, handler) {
             this.on(event, handler, true);
         }
     }, {
-        key: "off",
+        key: 'off',
         value: function off(event, handler) {
             if (event != null) {
                 if (handler != null) {
@@ -158,7 +213,7 @@ var EventBus = function () {
                             this.list[event].splice(index, 1);
                         }
                     } else {
-                        console.warn("Event " + event + " cannot be unsubscribed - does not exist.");
+                        console.warn('Event ' + event + ' cannot be unsubscribed - does not exist.');
                     }
                 } else {
                     this.list[event] = [];
@@ -175,13 +230,13 @@ var EventBus = function () {
 exports.default = new EventBus();
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _eventbus = __webpack_require__(0);
+var _eventbus = __webpack_require__(1);
 
 var _eventbus2 = _interopRequireDefault(_eventbus);
 
