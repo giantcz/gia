@@ -14,6 +14,7 @@ Gia is modular in it’s nature. Following is the table of module sizes.
 | **0.69 Kb** | config                                  |
 | **0.56 Kb** | getComponentFromElement                 |
 
+
 Following sizes are for modules included separately (bundled separately). Modules often include common code, so when included and bundled together, final sizes are smaller and don't just add up.
 
 [Installation](#installation)
@@ -148,7 +149,7 @@ In case some components are overlapping, but you would still like to use a same 
     </div>
 </div>
 ```
-The `*refElement*` will only be selected and stored by `SampleComponent`, and no others.
+The `refElement` will only be selected and stored by `SampleComponent`, and no others.
 
 #### options
 Variable holding options of the component. Default options can be set in constructor of the component. Options get automatically rewritten from the `g-options` attribute.
@@ -169,7 +170,7 @@ constructor(element) {
 #### state
 Variable holding state of the component. It is not necessary to use state at all, as components are not used to actually render HTML. However, in combination with **setState** and **stateChange** methods, state can be useful for certain components, like some sort of filter where simple state can be helpful. Another use case is component which often updates DOM, as by using **setState and stateChange** methods, modifications of DOM are made only when the state actually changed. State should only be changed by **setState** function and takes a form of object.
 ```javascript
-    console.log(this.state); // {}
+console.log(this.state); // {}
 ```
 
 
