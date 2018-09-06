@@ -228,14 +228,19 @@ var EventBus = function () {
     _createClass(EventBus, [{
         key: "emit",
         value: function emit(event) {
+            var _this = this;
+
             var eventObject = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
             eventObject._name = event;
             if (this.list[event]) {
-                this.list[event].forEach(function (handler) {
-                    return handler(eventObject);
-                });
                 console.info(this.list[event].length + " handler" + (this.list[event].length > 1 ? "s" : "") + " called on event '" + event + "'");
+                this.list[event].forEach(function (handlerObject) {
+                    handlerObject.handler(eventObject);
+                    if (handlerObject.once) {
+                        _this.off(event, handlerObject.handler);
+                    }
+                });
             } else {
                 console.info("0 handlers called on event '" + event + "'");
             }
@@ -243,20 +248,33 @@ var EventBus = function () {
     }, {
         key: "on",
         value: function on(event, handler) {
+            var once = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+
             if (this.list[event]) {
-                this.list[event].push(handler);
+                this.list[event].push({ once: once, handler: handler });
             } else {
                 this.list[event] = [];
-                this.list[event].push(handler);
+                this.list[event].push({ once: once, handler: handler });
             }
+        }
+    }, {
+        key: "once",
+        value: function once(event, handler) {
+            this.on(event, handler, true);
         }
     }, {
         key: "off",
         value: function off(event, handler) {
             if (event != null) {
                 if (handler != null) {
-                    if (this.list[event] && this.list[event].indexOf(handler) !== -1) {
-                        var index = this.list[event].indexOf(handler);
+                    if (this.list[event] && this.list[event].filter(function (eventObject) {
+                        return eventObject.handler === handler;
+                    }).length) {
+                        var toRemove = this.list[event].filter(function (eventObject) {
+                            return eventObject.handler === handler;
+                        })[0];
+                        console.log(toRemove);
+                        var index = this.list[event].indexOf(toRemove);
                         if (index > -1) {
                             this.list[event].splice(index, 1);
                         }
