@@ -89,6 +89,51 @@ return /******/ (function(modules) { // webpackBootstrap
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Config for setting and changing global settings
+ */
+
+var Config = function () {
+    function Config() {
+        _classCallCheck(this, Config);
+
+        this._options = {
+            log: true
+        };
+    }
+
+    _createClass(Config, [{
+        key: "set",
+        value: function set(name, value) {
+            this._options[name] = value;
+        }
+    }, {
+        key: "get",
+        value: function get(name) {
+            return this._options[name];
+        }
+    }]);
+
+    return Config;
+}();
+
+exports.default = new Config();
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 exports.default = getComponentFromElement;
 /**
  * Return instance from element
@@ -109,7 +154,7 @@ function getComponentFromElement(element) {
 }
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -198,51 +243,6 @@ function triggerEvent(element, eventType) {
     var event = new CustomEvent(eventType, options);
     element.dispatchEvent(event);
 }
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-/**
- * Config for setting and changing global settings
- */
-
-var Config = function () {
-    function Config() {
-        _classCallCheck(this, Config);
-
-        this._options = {
-            log: true
-        };
-    }
-
-    _createClass(Config, [{
-        key: "set",
-        value: function set(name, value) {
-            this._options[name] = value;
-        }
-    }, {
-        key: "get",
-        value: function get(name) {
-            return this._options[name];
-        }
-    }]);
-
-    return Config;
-}();
-
-exports.default = new Config();
 
 /***/ }),
 /* 3 */
@@ -356,7 +356,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _utils = __webpack_require__(1);
+var _utils = __webpack_require__(2);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -573,9 +573,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = destroyInstance;
 
-var _getComponentFromElement = __webpack_require__(0);
+var _getComponentFromElement = __webpack_require__(1);
 
 var _getComponentFromElement2 = _interopRequireDefault(_getComponentFromElement);
+
+var _config = __webpack_require__(0);
+
+var _config2 = _interopRequireDefault(_config);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -590,7 +594,9 @@ function destroyInstance(element) {
         var name = instance._name;
         instance.destroy();
         element['__gia_component__'] = null;
-        console.info('Removed component "' + name + '".');
+        if (_config2.default.get('log')) {
+            console.info('Removed component "' + name + '".');
+        }
     }
 }
 
@@ -606,7 +612,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = removeComponents;
 
-var _utils = __webpack_require__(1);
+var _utils = __webpack_require__(2);
 
 var _destroyInstance = __webpack_require__(5);
 
@@ -639,7 +645,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = createInstance;
 
-var _config = __webpack_require__(2);
+var _config = __webpack_require__(0);
 
 var _config2 = _interopRequireDefault(_config);
 
@@ -674,9 +680,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = loadComponents;
 
-var _utils = __webpack_require__(1);
+var _utils = __webpack_require__(2);
 
-var _getComponentFromElement = __webpack_require__(0);
+var _getComponentFromElement = __webpack_require__(1);
 
 var _getComponentFromElement2 = _interopRequireDefault(_getComponentFromElement);
 
@@ -742,7 +748,7 @@ var _removeComponents = __webpack_require__(6);
 
 var _removeComponents2 = _interopRequireDefault(_removeComponents);
 
-var _getComponentFromElement = __webpack_require__(0);
+var _getComponentFromElement = __webpack_require__(1);
 
 var _getComponentFromElement2 = _interopRequireDefault(_getComponentFromElement);
 
@@ -754,7 +760,7 @@ var _eventbus = __webpack_require__(3);
 
 var _eventbus2 = _interopRequireDefault(_eventbus);
 
-var _config = __webpack_require__(2);
+var _config = __webpack_require__(0);
 
 var _config2 = _interopRequireDefault(_config);
 
