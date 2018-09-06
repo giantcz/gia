@@ -2,7 +2,7 @@
   "name": "gia",
   "version": "0.1.0",
   "description": "Minimalistic JS framework for server rendered websites.",
-  "main": "lib/index.js",
+  "main": "dist/gia.js",
   "scripts": {
     "compile-component": "babel --presets es2015,stage-0 src/Component.js --out-file Component.js",
     "compile-base-component": "babel --presets es2015,stage-0 src/BaseComponent.js --out-file BaseComponent.js",
