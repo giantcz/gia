@@ -3,7 +3,7 @@ import getComponentFromElement from './getComponentFromElement';
 import createInstance from './createInstance';
 
 /**
- * Creates instances of components without creating duplicates on element within the context
+ * Creates instances of components without creating duplicates on elements within the context
  * @param components: object of components to load
  * @param context: DOM element
  */

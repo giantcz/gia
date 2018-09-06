@@ -5,6 +5,7 @@ import config from './config';
  * @param element: DOM element
  * @param componentName: Component name
  * @param component: Component constructor
+ * @param options: options object passed into a component
  */
 
 export default function createInstance(element, componentName, component, options) {

@@ -147,6 +147,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @param element: DOM element
  * @param componentName: Component name
  * @param component: Component constructor
+ * @param options: options object passed into a component
  */
 
 function createInstance(element, componentName, component, options) {

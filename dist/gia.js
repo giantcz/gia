@@ -137,7 +137,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = getComponentFromElement;
 /**
  * Return instance from element
- * @param element: DOM element
+ * @param element: DOM element or ID of element
  * @returns component instance
  */
 
@@ -548,6 +548,8 @@ var Component = function () {
             }
 
             this._options = _extends({}, this._options, defaults, options);
+
+            return this._options;
         }
     }, {
         key: 'state',
@@ -588,7 +590,7 @@ var _config2 = _interopRequireDefault(_config);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * destroys and removes instance from DOM element
+ * Destroys and removes instance from DOM element
  * @param element: DOM element
  */
 
@@ -625,7 +627,7 @@ var _destroyInstance2 = _interopRequireDefault(_destroyInstance);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Removes instances of components on element within the context
+ * Removes instances of components on elements within the context
  * @param context: DOM element
  */
 
@@ -660,6 +662,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @param element: DOM element
  * @param componentName: Component name
  * @param component: Component constructor
+ * @param options: options object passed into a component
  */
 
 function createInstance(element, componentName, component, options) {
@@ -697,7 +700,7 @@ var _createInstance2 = _interopRequireDefault(_createInstance);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Creates instances of components without creating duplicates on element within the context
+ * Creates instances of components without creating duplicates on elements within the context
  * @param components: object of components to load
  * @param context: DOM element
  */

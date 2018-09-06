@@ -147,6 +147,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @param element: DOM element
  * @param componentName: Component name
  * @param component: Component constructor
+ * @param options: options object passed into a component
  */
 
 function createInstance(element, componentName, component, options) {
@@ -172,7 +173,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = getComponentFromElement;
 /**
  * Return instance from element
- * @param element: DOM element
+ * @param element: DOM element or ID of element
  * @returns component instance
  */
 
@@ -304,7 +305,7 @@ var _createInstance2 = _interopRequireDefault(_createInstance);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Creates instances of components without creating duplicates on element within the context
+ * Creates instances of components without creating duplicates on elements within the context
  * @param components: object of components to load
  * @param context: DOM element
  */

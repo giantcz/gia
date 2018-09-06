@@ -369,6 +369,8 @@ var Component = function () {
             }
 
             this._options = _extends({}, this._options, defaults, options);
+
+            return this._options;
         }
     }, {
         key: 'state',

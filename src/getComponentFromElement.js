@@ -1,6 +1,6 @@
 /**
  * Return instance from element
- * @param element: DOM element
+ * @param element: DOM element or ID of element
  * @returns component instance
  */
 

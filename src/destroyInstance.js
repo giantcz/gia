@@ -2,7 +2,7 @@ import getComponentFromElement from './getComponentFromElement';
 import config from './config';
 
 /**
- * destroys and removes instance from DOM element
+ * Destroys and removes instance from DOM element
  * @param element: DOM element
  */
 

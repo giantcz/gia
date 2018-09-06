@@ -1,4 +1,4 @@
-import { query, queryAll } from './utils';
+import { queryAll } from './utils';
 
 /**
  * Component without code splitting support
@@ -85,7 +85,9 @@ export default class Component {
             ...this._options,
             ...defaults,
             ...options,
-        }
+        };
+
+        return this._options;
     }
 
     get state() {

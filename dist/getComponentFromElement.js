@@ -92,7 +92,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = getComponentFromElement;
 /**
  * Return instance from element
- * @param element: DOM element
+ * @param element: DOM element or ID of element
  * @returns component instance
  */
 

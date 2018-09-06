@@ -137,7 +137,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = getComponentFromElement;
 /**
  * Return instance from element
- * @param element: DOM element
+ * @param element: DOM element or ID of element
  * @returns component instance
  */
 
@@ -176,7 +176,7 @@ var _config2 = _interopRequireDefault(_config);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * destroys and removes instance from DOM element
+ * Destroys and removes instance from DOM element
  * @param element: DOM element
  */
 
@@ -304,7 +304,7 @@ var _destroyInstance2 = _interopRequireDefault(_destroyInstance);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * Removes instances of components on element within the context
+ * Removes instances of components on elements within the context
  * @param context: DOM element
  */
 

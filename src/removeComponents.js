@@ -2,7 +2,7 @@ import { queryAll } from "./utils";
 import destroyInstance from "./destroyInstance";
 
 /**
- * Removes instances of components on element within the context
+ * Removes instances of components on elements within the context
  * @param context: DOM element
  */
 
