@@ -200,7 +200,7 @@ var Component = function () {
         _classCallCheck(this, Component);
 
         this.element = element;
-        this.element['__goop_component__'] = this;
+        this.element['__gia_component__'] = this;
         this._ref = {};
         this._options = options || {};
         this._state = {};
@@ -305,32 +305,21 @@ var Component = function () {
                 }
             });
 
-            Object.keys(stateChanges).forEach(function (key) {
-                if (newState[key].constructor === Array && stateChanges[key].length === 0) {
-                    delete stateChanges[key];
-                } else if (_typeof(newState[key]) === 'object' && Object.keys(stateChanges[key]).length === 0) {
-                    delete stateChanges[key];
-                }
-            });
+            // Object.keys(stateChanges).forEach(key => {
+            //     if (newState[key].constructor === Array && stateChanges[key].length === 0) {
+            //         delete stateChanges[key];
+            //     } else if (typeof newState[key] === 'object' && Object.keys(stateChanges[key]).length === 0) {
+            //         delete stateChanges[key];
+            //     }
+            // });
 
-            this.stateChange(stateChanges);
             this._state = newState;
+            this.stateChange(stateChanges);
         }
     }, {
         key: 'stateChange',
         value: function stateChange(stateChanges) {
             // this is here only to be rewritten by extend
-        }
-    }, {
-        key: 'delegate',
-        value: function delegate(eventName, refName, handler) {
-            var _this3 = this;
-
-            this.element.addEventListener(eventName, function (event) {
-                if (event.target.getAttribute('g-ref') === refName || event.target.getAttribute('g-ref') === _this3._name + ":" + refName) {
-                    handler(event);
-                }
-            });
         }
     }, {
         key: 'ref',

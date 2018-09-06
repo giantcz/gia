@@ -113,7 +113,7 @@ function createInstance(element, componentName, component, options) {
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 exports.default = getComponentFromElement;
 /**
@@ -123,7 +123,15 @@ exports.default = getComponentFromElement;
  */
 
 function getComponentFromElement(element) {
-  return element['__goop_component__'];
+    if (typeof element === 'string') {
+        element = document.getElementById(element);
+
+        if (!element) {
+            return null;
+        }
+    }
+
+    return element['__gia_component__'];
 }
 
 /***/ }),

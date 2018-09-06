@@ -13,5 +13,5 @@ export default function getComponentFromElement(element) {
         }
     }
 
-    return element['__goop_component__'];
+    return element['__gia_component__'];
 }

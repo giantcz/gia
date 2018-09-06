@@ -107,8 +107,10 @@ var EventBus = function () {
 
     _createClass(EventBus, [{
         key: "emit",
-        value: function emit(event, eventObject) {
-            eventObject.name = event;
+        value: function emit(event) {
+            var eventObject = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+            eventObject._name = event;
             if (this.list[event]) {
                 this.list[event].forEach(function (handler) {
                     return handler(eventObject);

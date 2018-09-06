@@ -43,12 +43,12 @@ const defaultConfig = {
 
 const baseConfig = Object.assign({}, defaultConfig, {
     entry: {
-        "base": "./webpackEntries/entry.js",
-        "base.min": "./webpackEntries/entry.js",
+        "gia": "./webpackEntries/entry.js",
+        "gia.min": "./webpackEntries/entry.js",
     },
     output: {
         path: __dirname + "/dist/",
-        library: "base",
+        library: "gia",
         libraryTarget: "umd",
         filename: "[name].js",
     },

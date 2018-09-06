@@ -87,7 +87,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 exports.default = getComponentFromElement;
 /**
@@ -97,7 +97,15 @@ exports.default = getComponentFromElement;
  */
 
 function getComponentFromElement(element) {
-  return element['__goop_component__'];
+    if (typeof element === 'string') {
+        element = document.getElementById(element);
+
+        if (!element) {
+            return null;
+        }
+    }
+
+    return element['__gia_component__'];
 }
 
 /***/ }),
@@ -128,7 +136,7 @@ function destroyInstance(element) {
     if (instance) {
         var name = instance._name;
         instance.destroy();
-        element['__goop_component__'] = null;
+        element['__gia_component__'] = null;
         console.info('Removed component "' + name + '".');
     }
 }

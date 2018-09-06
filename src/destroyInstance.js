@@ -10,7 +10,7 @@ export default function destroyInstance(element){
     if (instance) {
         const name = instance._name;
         instance.destroy();
-        element['__goop_component__'] = null;
+        element['__gia_component__'] = null;
         console.info(`Removed component "${name}".`);
     }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "base",
+  "name": "gia",
   "version": "0.1.0",
   "description": "Minimalistic JS framework for server rendered websites.",
   "main": "lib/index.js",

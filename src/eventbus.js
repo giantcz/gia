@@ -7,8 +7,8 @@ class EventBus {
 
     list = {};
 
-    emit(event, eventObject) {
-        eventObject.name = event;
+    emit(event, eventObject = {}) {
+        eventObject._name = event;
         if (this.list[event]) {
             this.list[event].forEach(handler => handler(eventObject));
             console.info(`${this.list[event].length} handler${this.list[event].length > 1 ? "s" : ""} called on event '${event}'`);

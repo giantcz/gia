@@ -3,3 +3,5 @@ dist/
 entry.js
 webpack.config.js
 webpackEntries
+/index.html
+.idea
