@@ -112,7 +112,7 @@ this.element; // DOM element
 #### ref
 Variable holding object with all the elements marked with `g-ref` attribute within the root element, where the contents of the attribute is used as *ref* name. By setting the `ref` variable, component gets a signal to look for the elements available within the root element of component. So this..
 ```html
-<div g:component="SampleComponent">
+<div g-component="SampleComponent">
     <div g-ref="singleRef">
     <div g-ref="multipleRefs">
     <div g-ref="multipleRefs">
@@ -143,8 +143,8 @@ constructor(element) {
 ```
 In case some components are overlapping, but you would still like to use a same names for the ref elements, it is also possible to define the component for which the element is intended for inside of `g-ref` attribute.
 ```html
-<div g:component="SampleComponent">
-    <div g:component="AnotherComponent">
+<div g-component="SampleComponent">
+    <div g-component="AnotherComponent">
         <div g-ref="SampleComponent:refElement">
     </div>
 </div>
@@ -155,7 +155,7 @@ The `refElement` will only be selected and stored by `SampleComponent`, and no o
 Variable holding options of the component. Default options can be set in constructor of the component. Options get automatically rewritten from the `g-options` attribute.
 
 ```html
-<div g:component="SampleComponent" g:options='{"someOption": "customValue"}'>
+<div g-component="SampleComponent" g-options='{"someOption": "customValue"}'>
 ```
 ```javascript
 constructor(element) {
