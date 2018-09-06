@@ -33,6 +33,8 @@ Following sizes are for modules included separately (bundled separately). Module
 * [config](#config)
 * [eventbus](#eventbus)
 
+
+
 ## Installation
 Include Gia with scripts tag
 
@@ -53,6 +55,8 @@ npm install gia --save
 import Component from 'gia/Component';
 import loadComponents from 'gia/loadComponents';
 ```
+
+
 
 ## Usage
 First, a component needs to be created.
@@ -78,6 +82,7 @@ const components = {
 loadComponents(components);
 ```
 This simple setup will give you component with a simple lifecycle, scoped to the DOM element, plus some other super powers!
+
 
 
 ## Component
@@ -242,6 +247,8 @@ this.setState({ a: "a", b: "c" }); // { b: "c" }    { a: "a", b: "c" }
 this.setState({ b: "d" }); // { b: "d" }    { a: "a", b: "d" }
 ```
 
+
+
 ## Helpers
 ### loadComponents
 Initialises components within defined scope. In case an instance of the component already exists on the element, function skips initialisation. That means **loadComponents** can be always called without a context, but context should be defined for best performance.
@@ -283,7 +290,7 @@ import destroyInstance from 'gia/destroyInstance';
 destroyInstance(element);
 ```
 
-## getComponentFromElement
+### getComponentFromElement
 Returns instance of component from element.
 ```javascript
 import getComponentFromElement from 'gia/getComponentFromElement';
