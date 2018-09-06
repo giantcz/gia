@@ -118,49 +118,73 @@ export default class Component {
         return `[g-ref="${prefixed ? `${this._name}:` : ''}${ref}"]`;
     }
 
-    setState(newState) {
+    setState(changes) {
 
         let stateChanges = {};
 
-        Object.keys(newState).forEach(key => {
-            if(typeof newState[key] === 'boolean' || typeof newState[key] === 'string' || typeof newState[key] === 'number' || typeof newState[key] === 'undefined') {
-                if(this._state[key] !== newState[key]) {
-                    stateChanges[key] = newState[key];
+        Object.keys(changes).forEach(key => {
+            if (Array.isArray(changes[key])) {
+                if(this._state[key] != null && Array.isArray(this._state[key])) {
+                    if (this._state[key].length === changes[key].length) {
+                        changes[key].some((item, index) => {
+                            if(this._state[key][index] !== item) {
+                                stateChanges[key] = changes[key];
+                                this._state[key] = stateChanges[key];
+                                return true;
+                            }
+                            return false;
+                        });
+                    } else {
+                        stateChanges[key] = changes[key];
+                        this._state[key] = stateChanges[key];
+                    }
+                } else {
+                    stateChanges[key] = changes[key];
+                    this._state[key] = stateChanges[key];
                 }
-            } else if (newState[key].constructor === Array) {
-                if(this._state[key] != null) {
-                    stateChanges[key] = [];
-                    newState[key].forEach((item, index) => {
-                        //console.log(this.state[key] != null, this.state[key], newState[key])
-                        if(this._state[key][index] !== newState[key][index]) {
-                            stateChanges[key][index] = newState[key][index];
+            } else if (typeof changes[key] === 'object') {
+                if(this._state[key] != null && typeof this._state[key] === 'object') {
+                    stateChanges[key] = {};
+                    Object.keys(changes[key]).forEach(subkey => {
+                        if (this._state[key][subkey] !== changes[key][subkey]) {
+                            stateChanges[key][subkey] = changes[key][subkey];
                         }
                     });
                 } else {
-                    stateChanges[key] = newState[key];
+                    stateChanges[key] = changes[key];
                 }
-            } else if (typeof newState[key] === 'object') {
-                stateChanges[key] = {};
-                Object.keys(newState[key]).forEach(subkey => {
-                    stateChanges[key][subkey] = newState[key][subkey];
-                });
+
+                this._state[key] = {
+                    ...this._state[key],
+                    ...stateChanges[key],
+                };
+            } else {
+                if(this._state[key] !== changes[key]) {
+                    stateChanges[key] = changes[key];
+
+                    this._state[key] = changes[key];
+                }
             }
         });
 
-        // Object.keys(stateChanges).forEach(key => {
-        //     if (newState[key].constructor === Array && stateChanges[key].length === 0) {
-        //         delete stateChanges[key];
-        //     } else if (typeof newState[key] === 'object' && Object.keys(stateChanges[key]).length === 0) {
-        //         delete stateChanges[key];
-        //     }
-        // });
+        Object.keys(stateChanges).forEach(key => {
+            if (Array.isArray(changes[key])) {
+                if (stateChanges[key].length === 0) {
+                    delete stateChanges[key];
+                }
+            } else if (typeof changes[key] === 'object') {
+                if (Object.keys(stateChanges[key]).length === 0) {
+                    delete stateChanges[key];
+                }
+            }
+        });
 
-        this._state = newState;
         this.stateChange(stateChanges);
+
     }
 
     stateChange(stateChanges) {
-        // this is here only to be rewritten by extend
+        // this is here only to be rewritten
     }
 
 }
