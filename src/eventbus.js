@@ -7,9 +7,10 @@ class EventBus {
 
     list = {};
 
-    emit(event) {
+    emit(event, eventObject) {
+        eventObject.name = event;
         if (this.list[event]) {
-            this.list[event].forEach(handler => handler());
+            this.list[event].forEach(handler => handler(eventObject));
             console.info(`${this.list[event].length} handler${this.list[event].length > 1 ? "s" : ""} called on event '${event}'`);
         } else {
             console.info(`0 handlers called on event '${event}'`);
