@@ -123,7 +123,7 @@ exports.default = getComponentFromElement;
  */
 
 function getComponentFromElement(element) {
-  return element['__base_component__'];
+  return element['__goop_component__'];
 }
 
 /***/ }),

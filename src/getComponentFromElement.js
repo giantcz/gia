@@ -5,5 +5,13 @@
  */
 
 export default function getComponentFromElement(element) {
-    return element['__base_component__'];
+    if (typeof element === 'string') {
+        element = document.getElementById(element);
+
+        if (!element) {
+            return null;
+        }
+    }
+
+    return element['__goop_component__'];
 }

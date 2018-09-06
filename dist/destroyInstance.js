@@ -97,7 +97,7 @@ exports.default = getComponentFromElement;
  */
 
 function getComponentFromElement(element) {
-  return element['__base_component__'];
+  return element['__goop_component__'];
 }
 
 /***/ }),
@@ -128,7 +128,7 @@ function destroyInstance(element) {
     if (instance) {
         var name = instance._name;
         instance.destroy();
-        element['__base_component__'] = null;
+        element['__goop_component__'] = null;
         console.info('Removed component "' + name + '".');
     }
 }

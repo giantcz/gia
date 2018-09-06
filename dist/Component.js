@@ -202,7 +202,6 @@ var Component = function () {
         this.element = element;
         this.element['__goop_component__'] = this;
         this._ref = {};
-        this.ref = {};
         this._options = options || {};
         this._state = {};
     }
@@ -210,12 +209,12 @@ var Component = function () {
     _createClass(Component, [{
         key: '_load',
         value: function _load() {
-            this.componentDidMount();
+            this.mount();
             this.prepare();
         }
     }, {
-        key: 'componentDidMount',
-        value: function componentDidMount() {
+        key: 'mount',
+        value: function mount() {
             // this is here only to be rewritten by extend
         }
     }, {
@@ -242,63 +241,35 @@ var Component = function () {
 
             var items = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
-            if (items == null) {
-                items = {};
-
-                (0, _utils.queryAll)('[g-ref]', this.element).forEach(function (item) {
-                    var name = item.getAttribute('g-ref');
-                    var multiple = false;
-
-                    if (items[name] != null) {
-                        return true;
+            if (Object.keys(items).length == 0) {
+                var elements = (0, _utils.queryAll)('[g-ref]', this.element);
+                elements.forEach(function (element) {
+                    var refName = element.getAttribute('g-ref');
+                    if (!_this._ref[refName]) {
+                        _this._ref[refName] = elements.filter(function (item) {
+                            return item.getAttribute('g-ref') === refName;
+                        });
                     }
-
-                    if (name.includes('[]')) {
-                        multiple = true;
-                        name = name.replace('[]', '');
-                    }
-
-                    if (name.split(':').length > 1) {
-                        if (name.split(':')[0] === _this._name) {
-                            if (multiple) {
-                                items[name.split(':')[1]] = [];
-                            } else {
-                                items[name.split(':')[1]] = null;
-                            }
+                });
+            } else {
+                Object.keys(items).forEach(function (key) {
+                    if (Array.isArray(items[key])) {
+                        var _elements = (0, _utils.queryAll)(_this.getRef(key, true), _this.element);
+                        if (!_elements.length) {
+                            _elements = (0, _utils.queryAll)(_this.getRef(key), _this.element);
                         }
+                        _this._ref[key] = _elements;
+                    } else if (!items[key]) {
+                        var element = (0, _utils.query)(_this.getRef(key, true), _this.element);
+                        if (!element) {
+                            element = (0, _utils.query)(_this.getRef(key), _this.element);
+                        }
+                        _this._ref[key] = element;
                     } else {
-                        if (multiple) {
-                            items[name] = [];
-                        } else {
-                            items[name] = null;
-                        }
+                        _this._ref[key] = items[key];
                     }
                 });
             }
-
-            Object.keys(items).forEach(function (key) {
-                if (Array.isArray(items[key])) {
-                    var elements = (0, _utils.queryAll)(_this.getRef(key + '[]', true), _this.element);
-                    if (elements.length === 0) {
-                        elements = (0, _utils.queryAll)(_this.getRef(key.slice(0, -1), true), _this.element);
-                        if (elements.length === 0) {
-                            elements = (0, _utils.queryAll)(_this.getRef(key + '[]'), _this.element);
-                            if (elements.length === 0) {
-                                elements = (0, _utils.queryAll)(_this.getRef(key.slice(0, -1)), _this.element);
-                            }
-                        }
-                    }
-                    _this._ref[key] = elements;
-                } else if (!items[key]) {
-                    var element = (0, _utils.query)(_this.getRef(key, true), _this.element);
-                    if (!element) {
-                        element = (0, _utils.query)(_this.getRef(key), _this.element);
-                    }
-                    _this._ref[key] = element;
-                } else {
-                    _this._ref[key] = items[key];
-                }
-            });
 
             return this._ref;
         }
@@ -367,13 +338,7 @@ var Component = function () {
             return this._ref;
         },
         set: function set(items) {
-            if (Object.keys(items).length === 0) {
-                this._ref = this._getRefElements();
-            } else {
-                this._ref = {};
-                this._ref = this._getRefElements(items);
-            }
-
+            this._ref = this._getRefElements(items);
             return this._ref;
         }
     }, {
@@ -1351,7 +1316,7 @@ var Component = function (_BaseComponent) {
     }, {
         key: '_load',
         value: function _load() {
-            this.componentDidMount();
+            this.mount();
             this.require().then(this.prepare.bind(this));
         }
     }]);
