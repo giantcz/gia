@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["BaseComponent"] = factory();
+		exports["gia"] = factory();
 	else
-		root["BaseComponent"] = factory();
+		root["gia"] = factory();
 })(window, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -76,11 +76,40 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = getComponentFromElement;
+/**
+ * Return instance from element
+ * @param element: DOM element
+ * @returns component instance
+ */
+
+function getComponentFromElement(element) {
+    if (typeof element === 'string') {
+        element = document.getElementById(element);
+
+        if (!element) {
+            return null;
+        }
+    }
+
+    return element['__gia_component__'];
+}
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -171,7 +200,85 @@ function triggerEvent(element, eventType) {
 }
 
 /***/ }),
-/* 1 */
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Event bus for storing and executing handlers on emitted events
+ */
+
+var EventBus = function () {
+    function EventBus() {
+        _classCallCheck(this, EventBus);
+
+        this.list = {};
+    }
+
+    _createClass(EventBus, [{
+        key: "emit",
+        value: function emit(event) {
+            var eventObject = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+            eventObject._name = event;
+            if (this.list[event]) {
+                this.list[event].forEach(function (handler) {
+                    return handler(eventObject);
+                });
+                console.info(this.list[event].length + " handler" + (this.list[event].length > 1 ? "s" : "") + " called on event '" + event + "'");
+            } else {
+                console.info("0 handlers called on event '" + event + "'");
+            }
+        }
+    }, {
+        key: "on",
+        value: function on(event, handler) {
+            if (this.list[event]) {
+                this.list[event].push(handler);
+            } else {
+                this.list[event] = [];
+                this.list[event].push(handler);
+            }
+        }
+    }, {
+        key: "off",
+        value: function off(event, handler) {
+            if (event != null) {
+                if (handler != null) {
+                    if (this.list[event] && this.list[event].indexOf(handler) !== -1) {
+                        var index = this.list[event].indexOf(handler);
+                        if (index > -1) {
+                            this.list[event].splice(index, 1);
+                        }
+                    } else {
+                        console.warn("Event " + event + " cannot be unsubscribed - does not exist.");
+                    }
+                } else {
+                    this.list[event] = [];
+                }
+            } else {
+                this.list = {};
+            }
+        }
+    }]);
+
+    return EventBus;
+}();
+
+exports.default = new EventBus();
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -187,7 +294,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _utils = __webpack_require__(0);
+var _utils = __webpack_require__(1);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -373,19 +480,200 @@ var Component = function () {
 exports.default = Component;
 
 /***/ }),
-/* 2 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _BaseComponent = __webpack_require__(1);
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = destroyInstance;
 
-var _BaseComponent2 = _interopRequireDefault(_BaseComponent);
+var _getComponentFromElement = __webpack_require__(0);
+
+var _getComponentFromElement2 = _interopRequireDefault(_getComponentFromElement);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-module.exports = _BaseComponent2.default; // this is here for webpack to expose BaseComponent as window.BaseComponent
+/**
+ * destroys and removes instance from DOM element
+ * @param element: DOM element
+ */
+
+function destroyInstance(element) {
+    var instance = (0, _getComponentFromElement2.default)(element);
+    if (instance) {
+        var name = instance._name;
+        instance.destroy();
+        element['__gia_component__'] = null;
+        console.info('Removed component "' + name + '".');
+    }
+}
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = removeComponents;
+
+var _utils = __webpack_require__(1);
+
+var _destroyInstance = __webpack_require__(4);
+
+var _destroyInstance2 = _interopRequireDefault(_destroyInstance);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Removes instances of components on element within the context
+ * @param context: DOM element
+ */
+
+function removeComponents() {
+    var context = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.documentElement;
+
+    (0, _utils.queryAll)('[g-component]', context).forEach(function (element) {
+        (0, _destroyInstance2.default)(element);
+    });
+}
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = createInstance;
+/**
+ * Creates and returns instance of component
+ * @param element: DOM element
+ * @param componentName: Component name
+ * @param component: Component constructor
+ */
+
+function createInstance(element, componentName, component, options) {
+  component.prototype._name = componentName;
+  var instance = new component(element, options);
+
+  console.info("Created instance of component \"" + componentName + "\".");
+  return instance;
+}
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = loadComponents;
+
+var _utils = __webpack_require__(1);
+
+var _getComponentFromElement = __webpack_require__(0);
+
+var _getComponentFromElement2 = _interopRequireDefault(_getComponentFromElement);
+
+var _createInstance = __webpack_require__(6);
+
+var _createInstance2 = _interopRequireDefault(_createInstance);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Creates instances of components without creating duplicates on element within the context
+ * @param components: object of components to load
+ * @param context: DOM element
+ */
+
+function loadComponents() {
+    var components = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document.documentElement;
+
+
+    if (!components || Object.keys(components).length === 0) {
+        console.warn('App has no components');
+        return;
+    }
+
+    var initialisedComponents = [];
+
+    (0, _utils.queryAll)('[g-component]', context).forEach(function (element) {
+        var instance = (0, _getComponentFromElement2.default)(element);
+
+        if (instance) {
+            console.warn('Error: instance exists: \n', instance);
+            return true; // continue
+        }
+
+        var componentName = element.getAttribute('g-component');
+
+        if (typeof components[componentName] === 'function') {
+            initialisedComponents.push((0, _createInstance2.default)(element, componentName, components[componentName]));
+        } else {
+            console.warn('Constructor for component "' + componentName + '" not found.');
+        }
+    });
+
+    // call load/require/prepare
+    initialisedComponents.forEach(function (component) {
+        component._load();
+    });
+}
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _loadComponents = __webpack_require__(7);
+
+var _loadComponents2 = _interopRequireDefault(_loadComponents);
+
+var _removeComponents = __webpack_require__(5);
+
+var _removeComponents2 = _interopRequireDefault(_removeComponents);
+
+var _getComponentFromElement = __webpack_require__(0);
+
+var _getComponentFromElement2 = _interopRequireDefault(_getComponentFromElement);
+
+var _BaseComponent = __webpack_require__(3);
+
+var _BaseComponent2 = _interopRequireDefault(_BaseComponent);
+
+var _eventbus = __webpack_require__(2);
+
+var _eventbus2 = _interopRequireDefault(_eventbus);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+module.exports = {
+    loadComponents: _loadComponents2.default,
+    createInstance: _loadComponents2.default,
+    removeComponents: _removeComponents2.default,
+    destroyInstance: _removeComponents2.default,
+    Component: _BaseComponent2.default,
+    getComponentFromElement: _getComponentFromElement2.default,
+    eventbus: _eventbus2.default
+};
 
 /***/ })
 /******/ ]);

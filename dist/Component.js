@@ -235,62 +235,23 @@ var Component = function () {
             return '[g-ref="' + (prefixed ? this._name + ':' : '') + ref + '"]';
         }
     }, {
-        key: '_getRefElements',
-        value: function _getRefElements() {
-            var _this = this;
-
-            var items = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-
-            if (Object.keys(items).length == 0) {
-                var elements = (0, _utils.queryAll)('[g-ref]', this.element);
-                elements.forEach(function (element) {
-                    var refName = element.getAttribute('g-ref');
-                    if (!_this._ref[refName]) {
-                        _this._ref[refName] = elements.filter(function (item) {
-                            return item.getAttribute('g-ref') === refName;
-                        });
-                    }
-                });
-            } else {
-                Object.keys(items).forEach(function (key) {
-                    if (Array.isArray(items[key])) {
-                        var _elements = (0, _utils.queryAll)(_this.getRef(key, true), _this.element);
-                        if (!_elements.length) {
-                            _elements = (0, _utils.queryAll)(_this.getRef(key), _this.element);
-                        }
-                        _this._ref[key] = _elements;
-                    } else if (!items[key]) {
-                        var element = (0, _utils.query)(_this.getRef(key, true), _this.element);
-                        if (!element) {
-                            element = (0, _utils.query)(_this.getRef(key), _this.element);
-                        }
-                        _this._ref[key] = element;
-                    } else {
-                        _this._ref[key] = items[key];
-                    }
-                });
-            }
-
-            return this._ref;
-        }
-    }, {
         key: 'setState',
         value: function setState(newState) {
-            var _this2 = this;
+            var _this = this;
 
             var stateChanges = {};
 
             Object.keys(newState).forEach(function (key) {
                 if (typeof newState[key] === 'boolean' || typeof newState[key] === 'string' || typeof newState[key] === 'number' || typeof newState[key] === 'undefined') {
-                    if (_this2._state[key] !== newState[key]) {
+                    if (_this._state[key] !== newState[key]) {
                         stateChanges[key] = newState[key];
                     }
                 } else if (newState[key].constructor === Array) {
-                    if (_this2._state[key] != null) {
+                    if (_this._state[key] != null) {
                         stateChanges[key] = [];
                         newState[key].forEach(function (item, index) {
                             //console.log(this.state[key] != null, this.state[key], newState[key])
-                            if (_this2._state[key][index] !== newState[key][index]) {
+                            if (_this._state[key][index] !== newState[key][index]) {
                                 stateChanges[key][index] = newState[key][index];
                             }
                         });
@@ -327,7 +288,58 @@ var Component = function () {
             return this._ref;
         },
         set: function set(items) {
-            this._ref = this._getRefElements(items);
+            var _this2 = this;
+
+            var allRefs = (0, _utils.queryAll)('[g-ref]', this.element);
+
+            if (Object.keys(items).length === 0) {
+                allRefs.forEach(function (element) {
+                    var refName = element.getAttribute('g-ref');
+                    if (!_this2._ref[refName]) {
+                        _this2._ref[refName] = allRefs.filter(function (item) {
+                            return item.getAttribute('g-ref') === refName;
+                        });
+                    }
+                });
+            } else {
+                this._ref = Object.keys(items).map(function (key) {
+                    var isArray = Array.isArray(items[key]);
+
+                    // non-empty refs
+                    if (items[key] !== null && isArray && items[key].length > 0) {
+                        return {
+                            name: key,
+                            value: items[key]
+                        };
+                    }
+
+                    var name = key;
+                    var prefixedName = _this2._name + ':' + name;
+
+                    var refs = allRefs.filter(function (element) {
+                        return element.getAttribute('g-ref') === prefixedName;
+                    });
+
+                    if (refs.length === 0) {
+                        refs = allRefs.filter(function (element) {
+                            return element.getAttribute('g-ref') === name;
+                        });
+                    }
+
+                    if (!isArray) {
+                        refs = refs.length ? refs[0] : null;
+                    }
+
+                    return {
+                        name: key,
+                        value: refs
+                    };
+                }).reduce(function (acc, ref) {
+                    acc[ref.name] = ref.value;
+                    return acc;
+                }, {});
+            }
+
             return this._ref;
         }
     }, {

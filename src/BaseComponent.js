@@ -19,8 +19,55 @@ export default class Component {
     }
 
     set ref(items) {
-        this._ref = this._getRefElements(items);
-        return this._ref;
+        const allRefs = queryAll('[g-ref]', this.element);
+
+        if (Object.keys(items).length === 0) {
+            allRefs.forEach(element => {
+                let refName = element.getAttribute('g-ref');
+                if (!this._ref[refName]) {
+                    this._ref[refName] = allRefs.filter(item => {
+                        return item.getAttribute('g-ref') === refName;
+                    });
+                }
+            });
+        } else {
+            this._ref = Object.keys(items)
+                .map(key => {
+                    const isArray = Array.isArray(items[key]);
+
+                    // non-empty refs
+                    if (items[key] !== null && (isArray && items[key].length > 0)) {
+                        return {
+                            name: key,
+                            value: items[key]
+                        }
+                    }
+
+                    const name = key;
+                    const prefixedName = `${this._name}:${name}`;
+
+                    let refs = allRefs.filter(element => element.getAttribute('g-ref') === prefixedName);
+
+                    if (refs.length === 0) {
+                        refs = allRefs.filter(element => element.getAttribute('g-ref') === name);
+                    }
+
+                    if (!isArray) {
+                        refs = refs.length ? refs[0] : null
+                    }
+
+                    return {
+                        name: key,
+                        value: refs
+                    }
+                })
+                .reduce((acc, ref) => {
+                    acc[ref.name] = ref.value;
+                    return acc;
+                }, {})
+        }
+
+        return this._ref
     }
 
     get options() {
@@ -69,41 +116,6 @@ export default class Component {
 
     getRef(ref, prefixed = false) {
         return `[g-ref="${prefixed ? `${this._name}:` : ''}${ref}"]`;
-    }
-
-    _getRefElements(items = null) {
-        if (Object.keys(items).length == 0) {
-            let elements = queryAll('[g-ref]', this.element);
-            elements.forEach(element => {
-                let refName = element.getAttribute('g-ref');
-                if (!this._ref[refName]) {
-                    this._ref[refName] = elements.filter(item => {
-                        return item.getAttribute('g-ref') === refName;
-                    });
-                }
-            });
-        } else {
-            Object.keys(items)
-                .forEach(key => {
-                    if (Array.isArray(items[key])) {
-                        let elements = queryAll(this.getRef(key, true), this.element);
-                        if (!elements.length) {
-                            elements = queryAll(this.getRef(key), this.element);
-                        }
-                        this._ref[key] = elements;
-                    } else if (!items[key]) {
-                        let element = query(this.getRef(key, true), this.element);
-                        if (!element) {
-                            element = query(this.getRef(key), this.element);
-                        }
-                        this._ref[key] = element;
-                    } else {
-                        this._ref[key] = items[key];
-                    }
-                });
-        }
-
-        return this._ref;
     }
 
     setState(newState) {
