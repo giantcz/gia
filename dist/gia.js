@@ -389,22 +389,16 @@ var Component = function () {
         key: '_load',
         value: function _load() {
             this.mount();
-            this.prepare();
         }
     }, {
         key: 'mount',
         value: function mount() {
-            // this is here only to be rewritten by extend
+            console.warn('Component ' + this._name + ' does not have "mount" method.');
         }
     }, {
-        key: 'prepare',
-        value: function prepare() {
-            console.warn('Component ' + this._name + ' does not have "prepare" method.');
-        }
-    }, {
-        key: 'destroy',
-        value: function destroy() {
-            // this is here only to be rewritten by extend
+        key: 'umount',
+        value: function umount() {
+            // this is here only to be rewritten
         }
     }, {
         key: 'getRef',
@@ -737,7 +731,7 @@ function loadComponents() {
         }
     });
 
-    // call load/require/prepare
+    // call _load/require/mount
     initialisedComponents.forEach(function (component) {
         component._load();
     });

@@ -338,7 +338,7 @@ function loadComponents() {
         }
     });
 
-    // call load/require/prepare
+    // call _load/require/mount
     initialisedComponents.forEach(function (component) {
         component._load();
     });

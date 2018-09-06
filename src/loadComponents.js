@@ -34,7 +34,7 @@ export default function loadComponents(components = {}, context = document.docum
         }
     });
 
-    // call load/require/prepare
+    // call _load/require/mount
     initialisedComponents.forEach(component => {
         component._load();
     });

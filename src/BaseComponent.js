@@ -99,19 +99,14 @@ export default class Component {
 
     _load() {
         this.mount();
-        this.prepare();
     }
 
     mount() {
-        // this is here only to be rewritten by extend
+        console.warn(`Component ${this._name} does not have "mount" method.`);
     }
 
-    prepare() {
-        console.warn(`Component ${this._name} does not have "prepare" method.`);
-    }
-
-    destroy() {
-        // this is here only to be rewritten by extend
+    umount() {
+        // this is here only to be rewritten
     }
 
     getRef(ref, prefixed = false) {
