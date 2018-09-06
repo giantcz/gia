@@ -10,7 +10,7 @@ export default class Component extends BaseComponent {
     async require() {}
 
     _load() {
-        this.componentDidMount();
+        this.mount();
         this.require().then(::this.prepare)
     }
 
