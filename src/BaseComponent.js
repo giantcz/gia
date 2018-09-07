@@ -107,7 +107,7 @@ export default class Component {
         console.warn(`Component ${this._name} does not have "mount" method.`);
     }
 
-    umount() {
+    unmount() {
         // this is here only to be rewritten
     }
 

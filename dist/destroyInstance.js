@@ -184,7 +184,7 @@ function destroyInstance(element) {
     var instance = (0, _getComponentFromElement2.default)(element);
     if (instance) {
         var name = instance._name;
-        instance.destroy();
+        instance.unmount();
         element['__gia_component__'] = null;
         if (_config2.default.get('log')) {
             console.info('Removed component "' + name + '".');

@@ -217,8 +217,8 @@ var Component = function () {
             console.warn('Component ' + this._name + ' does not have "mount" method.');
         }
     }, {
-        key: 'umount',
-        value: function umount() {
+        key: 'unmount',
+        value: function unmount() {
             // this is here only to be rewritten
         }
     }, {

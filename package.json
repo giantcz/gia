@@ -1,7 +1,7 @@
 {
   "name": "gia",
-  "version": "0.0.6",
-  "description": "Minimalistic JS framework for server rendered websites.",
+  "version": "0.0.8",
+  "description": "Minimalistic JavaScript framework for server rendered websites.",
   "main": "dist/gia.js",
   "private": false,
   "scripts": {
@@ -18,7 +18,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "npm run compile-component && npm run compile-base-component && npm run compile-get-component-from-element && npm run compile-load-components && npm run compile-create-instance && npm run compile-remove-components && npm run compile-destroy-instance && npm run compile-utils && npm run compile-eventbus && npm run compile-config",
     "build": "webpack-cli",
-    "prepublish": "npm run compile"
+    "prepublish": "npm run compile && npm run build"
   },
   "author": "Georgy Marchuk",
   "contributors": [

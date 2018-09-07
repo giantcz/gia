@@ -396,8 +396,8 @@ var Component = function () {
             console.warn('Component ' + this._name + ' does not have "mount" method.');
         }
     }, {
-        key: 'umount',
-        value: function umount() {
+        key: 'unmount',
+        value: function unmount() {
             // this is here only to be rewritten
         }
     }, {
@@ -598,7 +598,7 @@ function destroyInstance(element) {
     var instance = (0, _getComponentFromElement2.default)(element);
     if (instance) {
         var name = instance._name;
-        instance.destroy();
+        instance.unmount();
         element['__gia_component__'] = null;
         if (_config2.default.get('log')) {
             console.info('Removed component "' + name + '".');
