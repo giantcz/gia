@@ -1,6 +1,6 @@
 {
   "name": "gia",
-  "version": "0.0.9",
+  "version": "1.0.0",
   "description": "Minimalistic JavaScript framework for server rendered websites.",
   "main": "dist/gia.js",
   "private": false,

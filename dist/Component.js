@@ -309,10 +309,23 @@ var Component = function () {
             if (Object.keys(items).length === 0) {
                 allRefs.forEach(function (element) {
                     var refName = element.getAttribute('g-ref');
-                    if (!_this2._ref[refName]) {
-                        _this2._ref[refName] = allRefs.filter(function (item) {
-                            return item.getAttribute('g-ref') === refName;
-                        });
+                    if (refName.indexOf(':') !== -1) {
+                        var refNameArray = refName.split(':');
+                        if (refNameArray[0] == _this2._name) {
+                            if (!_this2._ref[refNameArray[1]]) {
+                                _this2._ref[refNameArray[1]] = allRefs.filter(function (item) {
+                                    return item.getAttribute('g-ref') === refName;
+                                });
+                            }
+                        } else {
+                            return;
+                        }
+                    } else {
+                        if (!_this2._ref[refName]) {
+                            _this2._ref[refName] = allRefs.filter(function (item) {
+                                return item.getAttribute('g-ref') === refName;
+                            });
+                        }
                     }
                 });
             } else {

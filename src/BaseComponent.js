@@ -24,10 +24,23 @@ export default class Component {
         if (Object.keys(items).length === 0) {
             allRefs.forEach(element => {
                 let refName = element.getAttribute('g-ref');
-                if (!this._ref[refName]) {
-                    this._ref[refName] = allRefs.filter(item => {
-                        return item.getAttribute('g-ref') === refName;
-                    });
+                if (refName.indexOf(':') !== -1) {
+                    let refNameArray = refName.split(':');
+                    if (refNameArray[0] == this._name) {
+                        if (!this._ref[refNameArray[1]]) {
+                            this._ref[refNameArray[1]] = allRefs.filter(item => {
+                                return item.getAttribute('g-ref') === refName;
+                            });
+                        }
+                    } else {
+                        return;
+                    }
+                } else {
+                    if (!this._ref[refName]) {
+                        this._ref[refName] = allRefs.filter(item => {
+                            return item.getAttribute('g-ref') === refName;
+                        });
+                    }
                 }
             });
         } else {
