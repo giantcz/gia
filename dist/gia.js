@@ -254,6 +254,42 @@ function triggerEvent(element, eventType) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.default = createInstance;
+
+var _config = __webpack_require__(0);
+
+var _config2 = _interopRequireDefault(_config);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/**
+ * Creates and returns instance of component
+ * @param element: DOM element
+ * @param componentName: Component name
+ * @param component: Component constructor
+ * @param options: options object passed into a component
+ */
+
+function createInstance(element, componentName, component, options) {
+    component.prototype._name = componentName;
+    var instance = new component(element, options);
+
+    if (_config2.default.get('log')) {
+        console.info('Created instance of component "' + componentName + '".');
+    }
+    return instance;
+}
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -350,7 +386,7 @@ var EventBus = function () {
 exports.default = new EventBus();
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -581,7 +617,7 @@ var Component = function () {
 exports.default = Component;
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -620,7 +656,7 @@ function destroyInstance(element) {
 }
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -633,7 +669,7 @@ exports.default = removeComponents;
 
 var _utils = __webpack_require__(2);
 
-var _destroyInstance = __webpack_require__(5);
+var _destroyInstance = __webpack_require__(6);
 
 var _destroyInstance2 = _interopRequireDefault(_destroyInstance);
 
@@ -650,42 +686,6 @@ function removeComponents() {
     (0, _utils.queryAll)('[g-component]', context).forEach(function (element) {
         (0, _destroyInstance2.default)(element);
     });
-}
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = createInstance;
-
-var _config = __webpack_require__(0);
-
-var _config2 = _interopRequireDefault(_config);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Creates and returns instance of component
- * @param element: DOM element
- * @param componentName: Component name
- * @param component: Component constructor
- * @param options: options object passed into a component
- */
-
-function createInstance(element, componentName, component, options) {
-    component.prototype._name = componentName;
-    var instance = new component(element, options);
-
-    if (_config2.default.get('log')) {
-        console.info('Created instance of component "' + componentName + '".');
-    }
-    return instance;
 }
 
 /***/ }),
@@ -706,7 +706,7 @@ var _getComponentFromElement = __webpack_require__(1);
 
 var _getComponentFromElement2 = _interopRequireDefault(_getComponentFromElement);
 
-var _createInstance = __webpack_require__(7);
+var _createInstance = __webpack_require__(3);
 
 var _createInstance2 = _interopRequireDefault(_createInstance);
 
@@ -764,7 +764,11 @@ var _loadComponents = __webpack_require__(8);
 
 var _loadComponents2 = _interopRequireDefault(_loadComponents);
 
-var _removeComponents = __webpack_require__(6);
+var _createInstance = __webpack_require__(3);
+
+var _createInstance2 = _interopRequireDefault(_createInstance);
+
+var _removeComponents = __webpack_require__(7);
 
 var _removeComponents2 = _interopRequireDefault(_removeComponents);
 
@@ -772,11 +776,11 @@ var _getComponentFromElement = __webpack_require__(1);
 
 var _getComponentFromElement2 = _interopRequireDefault(_getComponentFromElement);
 
-var _BaseComponent = __webpack_require__(4);
+var _BaseComponent = __webpack_require__(5);
 
 var _BaseComponent2 = _interopRequireDefault(_BaseComponent);
 
-var _eventbus = __webpack_require__(3);
+var _eventbus = __webpack_require__(4);
 
 var _eventbus2 = _interopRequireDefault(_eventbus);
 
@@ -788,7 +792,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 module.exports = {
     loadComponents: _loadComponents2.default,
-    createInstance: _loadComponents2.default,
+    createInstance: _createInstance2.default,
     removeComponents: _removeComponents2.default,
     destroyInstance: _removeComponents2.default,
     Component: _BaseComponent2.default,
